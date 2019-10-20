@@ -20,7 +20,7 @@ namespace RayTracer.Tests
         [Fact]
         public void Vector_Equality_Checks()
         {
-            (new Vector(1f, y: 2f, 3f) == new Vector(1f, 2f, 3f))
+            (new Vector(1f, 2f, 3f) == new Vector(1f, 2f, 3f))
                 .ShouldBeTrue();
             
             (new Vector(1f, 2f, 3f) != new Vector(2f, 1f, 3f))

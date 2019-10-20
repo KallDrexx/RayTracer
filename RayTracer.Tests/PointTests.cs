@@ -19,7 +19,7 @@ namespace RayTracer.Tests
         [Fact]
         public void Point_Equality_Checks()
         {
-            (new Point(1f, y: 2f, 3f) == new Point(1f, 2f, 3f))
+            (new Point(1f, 2f, 3f) == new Point(1f, 2f, 3f))
                 .ShouldBeTrue();
             
             (new Point(1f, 2f, 3f) != new Point(2f, 1f, 3f))
