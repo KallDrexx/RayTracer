@@ -1,12 +1,14 @@
 using System;
 
-namespace RayTracer.Common
+namespace RayTracer.Common.Primitives
 {
     public struct Color : IEquatable<Color>
     {
         private const float Epsilon = 0.00001f;
         
-        public static readonly Color White = new Color(0f, 0f, 0f);
+        public static readonly Color White = new Color(1f, 1f, 1f);
+        public static readonly Color Black = new Color(0f, 0f, 0f);
+        
         public readonly double Red;
         public readonly double Green;
         public readonly double Blue;

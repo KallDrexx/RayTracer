@@ -1,10 +1,10 @@
 using System;
-using RayTracer.Common;
+using RayTracer.Common.Primitives;
 using Shouldly;
 using Xunit;
 using Xunit.Sdk;
 
-namespace RayTracer.Tests
+namespace RayTracer.Tests.Primitives
 {
     public class CanvasTests
     {

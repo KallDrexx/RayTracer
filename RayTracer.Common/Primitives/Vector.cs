@@ -1,6 +1,6 @@
 using System;
 
-namespace RayTracer.Common
+namespace RayTracer.Common.Primitives
 {
     public struct Vector : IEquatable<Vector>
     {
