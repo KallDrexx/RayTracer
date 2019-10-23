@@ -37,19 +37,13 @@ namespace RayTracer.Tests.Primitives
         }
 
         [Fact]
-        public void Exception_When_Accessing_Y_Greater_Than_Height()
+        public void Can_Set_And_Retrieve_Pixel_From_Canvas()
         {
-            var canvas = new Canvas(20, 10);
+            var color = new Color(0.25, 0.5, 0.75);
+            var canvas = new Canvas(800, 600) {[100, 125] = color};
 
-            Assert.ThrowsAny<Exception>(() => canvas[11, 11]);
-        }
-
-        [Fact]
-        public void Exception_When_Accessing_X_Greater_Than_Width()
-        {
-            var canvas = new Canvas(10, 20);
-
-            Assert.ThrowsAny<Exception>(() => canvas[11, 11]);
+            var result = canvas[100, 125];
+            result.ShouldBe(color);
         }
     }
 }
