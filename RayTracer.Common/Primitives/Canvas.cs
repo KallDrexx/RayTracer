@@ -1,11 +1,10 @@
-using System;
 using SkiaSharp;
 
 namespace RayTracer.Common.Primitives
 {
     public class Canvas
     {
-        private readonly Color[] _pixels;
+        private readonly Color[,] _pixels;
         public int Height { get; }
         public int Width { get; }
 
@@ -14,22 +13,23 @@ namespace RayTracer.Common.Primitives
             Height = height;
             Width = width;
             
-            _pixels = new Color[height * width];
+            _pixels = new Color[height, width];
             ClearToColor(Color.White);
         }
 
         public void ClearToColor(Color color)
         {
-            for (var x = 0; x < _pixels.Length; x++)
+            for (var y = 0; y < Height; y++)
+            for (var x = 0; x < Width; x++)
             {
-                _pixels[x] = color;
+                _pixels[y, x] = color;
             }
         }
 
         public Color this[int x, int y]
         {
-            get => _pixels[GetIndexForDimensions(x, y)];
-            set => _pixels[GetIndexForDimensions(x, y)] = value;
+            get => _pixels[y, x];
+            set => _pixels[y, x] = value;
         }
 
         public SKBitmap RenderToBitmap()
@@ -58,21 +58,6 @@ namespace RayTracer.Common.Primitives
             }
 
             return bitmap;
-        }
-
-        private int GetIndexForDimensions(int x, int y)
-        {
-            if (x >= Width)
-            {
-                throw new IndexOutOfRangeException($"({x} {y}) is out of range of width {Width}");
-            }
-
-            if (y >= Height)
-            {
-                throw new IndexOutOfRangeException($"({x} {y}) is out of range of height {Height}");
-            }
-
-            return (y * Width) + x;
         }
     }
 }
