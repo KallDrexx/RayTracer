@@ -4,7 +4,7 @@ namespace RayTracer.Common.Primitives
 {
     public struct Color : IEquatable<Color>
     {
-        public const float Epsilon = 0.0001f;
+        private const float Epsilon = 0.0001f;
         
         public static readonly Color White = new Color(1f, 1f, 1f);
         public static readonly Color Black = new Color(0f, 0f, 0f);
