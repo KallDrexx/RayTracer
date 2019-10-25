@@ -8,13 +8,13 @@ namespace RayTracer.Common.Primitives
 
         public static readonly Matrix4X4 IdentityMatrix = new Matrix4X4
         {
-            Row0Col0 = 1, Row1Col1 = 1, Row2Col2 = 1, Row3Col3 = 1
+            M11 = 1, M22 = 1, M33 = 1, M44 = 1
         };
 
-        public double Row0Col0, Row0Col1, Row0Col2, Row0Col3,
-            Row1Col0, Row1Col1, Row1Col2, Row1Col3,
-            Row2Col0, Row2Col1, Row2Col2, Row2Col3,
-            Row3Col0, Row3Col1, Row3Col2, Row3Col3;
+        public double M11, M12, M13, M14,
+            M21, M22, M23, M24,
+            M31, M32, M33, M34,
+            M41, M42, M43, M44;
 
         public static bool operator ==(Matrix4X4 first, Matrix4X4 second)
         {
@@ -30,119 +30,186 @@ namespace RayTracer.Common.Primitives
         {
             return new Matrix4X4
             {
-                Row0Col0 = first.Row0Col0 * second.Row0Col0 +
-                           first.Row0Col1 * second.Row1Col0 +
-                           first.Row0Col2 * second.Row2Col0 +
-                           first.Row0Col3 * second.Row3Col0,
+                M11 = first.M11 * second.M11 +
+                           first.M12 * second.M21 +
+                           first.M13 * second.M31 +
+                           first.M14 * second.M41,
 
-                Row0Col1 = first.Row0Col0 * second.Row0Col1 +
-                           first.Row0Col1 * second.Row1Col1 +
-                           first.Row0Col2 * second.Row2Col1 +
-                           first.Row0Col3 * second.Row3Col1,
+                M12 = first.M11 * second.M12 +
+                           first.M12 * second.M22 +
+                           first.M13 * second.M32 +
+                           first.M14 * second.M42,
 
-                Row0Col2 = first.Row0Col0 * second.Row0Col2 +
-                           first.Row0Col1 * second.Row1Col2 +
-                           first.Row0Col2 * second.Row2Col2 +
-                           first.Row0Col3 * second.Row3Col2,
+                M13 = first.M11 * second.M13 +
+                           first.M12 * second.M23 +
+                           first.M13 * second.M33 +
+                           first.M14 * second.M43,
 
-                Row0Col3 = first.Row0Col0 * second.Row0Col3 +
-                           first.Row0Col1 * second.Row1Col3 +
-                           first.Row0Col2 * second.Row2Col3 +
-                           first.Row0Col3 * second.Row3Col3,
+                M14 = first.M11 * second.M14 +
+                           first.M12 * second.M24 +
+                           first.M13 * second.M34 +
+                           first.M14 * second.M44,
 
-                Row1Col0 = first.Row1Col0 * second.Row0Col0 +
-                           first.Row1Col1 * second.Row1Col0 +
-                           first.Row1Col2 * second.Row2Col0 +
-                           first.Row1Col3 * second.Row3Col0,
+                M21 = first.M21 * second.M11 +
+                           first.M22 * second.M21 +
+                           first.M23 * second.M31 +
+                           first.M24 * second.M41,
 
-                Row1Col1 = first.Row1Col0 * second.Row0Col1 +
-                           first.Row1Col1 * second.Row1Col1 +
-                           first.Row1Col2 * second.Row2Col1 +
-                           first.Row1Col3 * second.Row3Col1,
+                M22 = first.M21 * second.M12 +
+                           first.M22 * second.M22 +
+                           first.M23 * second.M32 +
+                           first.M24 * second.M42,
 
-                Row1Col2 = first.Row1Col0 * second.Row0Col2 +
-                           first.Row1Col1 * second.Row1Col2 +
-                           first.Row1Col2 * second.Row2Col2 +
-                           first.Row1Col3 * second.Row3Col2,
+                M23 = first.M21 * second.M13 +
+                           first.M22 * second.M23 +
+                           first.M23 * second.M33 +
+                           first.M24 * second.M43,
 
-                Row1Col3 = first.Row1Col0 * second.Row0Col3 +
-                           first.Row1Col1 * second.Row1Col3 +
-                           first.Row1Col2 * second.Row2Col3 +
-                           first.Row1Col3 * second.Row3Col3,
+                M24 = first.M21 * second.M14 +
+                           first.M22 * second.M24 +
+                           first.M23 * second.M34 +
+                           first.M24 * second.M44,
 
-                Row2Col0 = first.Row2Col0 * second.Row0Col0 +
-                           first.Row2Col1 * second.Row1Col0 +
-                           first.Row2Col2 * second.Row2Col0 +
-                           first.Row2Col3 * second.Row3Col0,
+                M31 = first.M31 * second.M11 +
+                           first.M32 * second.M21 +
+                           first.M33 * second.M31 +
+                           first.M34 * second.M41,
 
-                Row2Col1 = first.Row2Col0 * second.Row0Col1 +
-                           first.Row2Col1 * second.Row1Col1 +
-                           first.Row2Col2 * second.Row2Col1 +
-                           first.Row2Col3 * second.Row3Col1,
+                M32 = first.M31 * second.M12 +
+                           first.M32 * second.M22 +
+                           first.M33 * second.M32 +
+                           first.M34 * second.M42,
 
-                Row2Col2 = first.Row2Col0 * second.Row0Col2 +
-                           first.Row2Col1 * second.Row1Col2 +
-                           first.Row2Col2 * second.Row2Col2 +
-                           first.Row2Col3 * second.Row3Col2,
+                M33 = first.M31 * second.M13 +
+                           first.M32 * second.M23 +
+                           first.M33 * second.M33 +
+                           first.M34 * second.M43,
 
-                Row2Col3 = first.Row2Col0 * second.Row0Col3 +
-                           first.Row2Col1 * second.Row1Col3 +
-                           first.Row2Col2 * second.Row2Col3 +
-                           first.Row2Col3 * second.Row3Col3,
+                M34 = first.M31 * second.M14 +
+                           first.M32 * second.M24 +
+                           first.M33 * second.M34 +
+                           first.M34 * second.M44,
 
-                Row3Col0 = first.Row3Col0 * second.Row0Col0 +
-                           first.Row3Col1 * second.Row1Col0 +
-                           first.Row3Col2 * second.Row2Col0 +
-                           first.Row3Col3 * second.Row3Col0,
+                M41 = first.M41 * second.M11 +
+                           first.M42 * second.M21 +
+                           first.M43 * second.M31 +
+                           first.M44 * second.M41,
 
-                Row3Col1 = first.Row3Col0 * second.Row0Col1 +
-                           first.Row3Col1 * second.Row1Col1 +
-                           first.Row3Col2 * second.Row2Col1 +
-                           first.Row3Col3 * second.Row3Col1,
+                M42 = first.M41 * second.M12 +
+                           first.M42 * second.M22 +
+                           first.M43 * second.M32 +
+                           first.M44 * second.M42,
 
-                Row3Col2 = first.Row3Col0 * second.Row0Col2 +
-                           first.Row3Col1 * second.Row1Col2 +
-                           first.Row3Col2 * second.Row2Col2 +
-                           first.Row3Col3 * second.Row3Col2,
+                M43 = first.M41 * second.M13 +
+                           first.M42 * second.M23 +
+                           first.M43 * second.M33 +
+                           first.M44 * second.M43,
 
-                Row3Col3 = first.Row3Col0 * second.Row0Col3 +
-                           first.Row3Col1 * second.Row1Col3 +
-                           first.Row3Col2 * second.Row2Col3 +
-                           first.Row3Col3 * second.Row3Col3,
+                M44 = first.M41 * second.M14 +
+                           first.M42 * second.M24 +
+                           first.M43 * second.M34 +
+                           first.M44 * second.M44,
             };
         }
 
         public Matrix4X4 Transpose()
         {
-            return new Matrix4X4();
+            return new Matrix4X4
+            {
+                M11 = M11,
+                M12 = M21,
+                M13 = M31,
+                M14 = M41,
+                M21 = M12,
+                M22 = M22,
+                M23 = M32,
+                M24 = M42,
+                M31 = M13,
+                M32 = M23,
+                M33 = M33,
+                M34 = M43,
+                M41 = M14,
+                M42 = M24,
+                M43 = M34,
+                M44 = M44,
+            };
+        }
+
+        public Matrix3X3 GetSubMatrix(int rowToRemove, int columnToRemove)
+        {
+            if (rowToRemove <= 0 || rowToRemove > 4 || columnToRemove <= 0 || columnToRemove > 4)
+            {
+                throw new InvalidOperationException($"({rowToRemove}, {columnToRemove}) is out of bounds for a 4x4 matrix");
+            }
+            
+            return new Matrix3X3
+            {
+                M11 = rowToRemove == 1
+                    ? columnToRemove == 1 ? M22 : M21
+                    : columnToRemove == 1
+                        ? M12
+                        : M11,
+                
+                M12 = rowToRemove == 1
+                    ? columnToRemove == 2 || columnToRemove == 1 ? M23 : M22
+                    : columnToRemove == 2 || columnToRemove == 1 ? M13 : M12,
+                
+                M13 = rowToRemove == 1
+                      ? columnToRemove == 4 ? M23 : M24
+                      : columnToRemove == 4 ? M13 : M14,
+                
+                M21 = columnToRemove == 1
+                      ? rowToRemove == 1 || rowToRemove == 2 ? M32 : M22
+                      : rowToRemove == 1 || rowToRemove == 2 ? M31 : M21,
+                
+                M22 = columnToRemove == 1 || columnToRemove == 2
+                      ? rowToRemove == 1 || rowToRemove == 2 ? M33 : M23
+                      : rowToRemove == 1 || rowToRemove == 2 ? M32 : M22,
+                
+                M23 = columnToRemove == 4
+                      ? rowToRemove == 1 || rowToRemove == 2 ? M33 : M23
+                      : rowToRemove == 1 || rowToRemove == 2 ? M34 : M24,
+                
+                M31 = rowToRemove == 4
+                      ? columnToRemove == 1 ? M32 : M31
+                      : columnToRemove == 1 ? M42 : M41,
+                
+                M32 = rowToRemove == 4
+                      ? columnToRemove == 1 || columnToRemove == 2 ? M33 : M32
+                      : columnToRemove == 1 || columnToRemove == 2 ? M43 : M42,
+                
+                M33 = columnToRemove == 4
+                      ? rowToRemove == 4 ? M33 : M43
+                      : rowToRemove == 4 ? M34 : M44,
+            };
         }
 
         public override string ToString()
         {
-            return $"{Row0Col0}, {Row0Col1}, {Row0Col2}, {Row0Col3}{Environment.NewLine}" +
-                   $"{Row1Col0}, {Row1Col1}, {Row1Col2}, {Row1Col3}{Environment.NewLine}" +
-                   $"{Row2Col0}, {Row2Col1}, {Row2Col2}, {Row2Col3}{Environment.NewLine}" +
-                   $"{Row3Col0}, {Row3Col1}, {Row3Col2}, {Row3Col3}";
+            return $"{M11}, {M12}, {M13}, {M14}{Environment.NewLine}" +
+                   $"{M21}, {M22}, {M23}, {M24}{Environment.NewLine}" +
+                   $"{M31}, {M32}, {M33}, {M34}{Environment.NewLine}" +
+                   $"{M41}, {M42}, {M43}, {M44}";
         }
 
         public bool Equals(Matrix4X4 other)
         {
-            return Math.Abs(Row0Col0 - other.Row0Col0) < Epsilon && 
-                   Math.Abs(Row0Col1 - other.Row0Col1) < Epsilon && 
-                   Math.Abs(Row0Col2 - other.Row0Col2) < Epsilon &&
-                   Math.Abs(Row0Col3 - other.Row0Col3) < Epsilon &&
-                   Math.Abs(Row1Col0 - other.Row1Col0) < Epsilon && 
-                   Math.Abs(Row1Col1 - other.Row1Col1) < Epsilon && 
-                   Math.Abs(Row1Col2 - other.Row1Col2) < Epsilon &&
-                   Math.Abs(Row1Col3 - other.Row1Col3) < Epsilon &&
-                   Math.Abs(Row2Col0 - other.Row2Col0) < Epsilon && 
-                   Math.Abs(Row2Col1 - other.Row2Col1) < Epsilon && 
-                   Math.Abs(Row2Col2 - other.Row2Col2) < Epsilon &&
-                   Math.Abs(Row2Col3 - other.Row2Col3) < Epsilon &&
-                   Math.Abs(Row3Col0 - other.Row3Col0) < Epsilon && 
-                   Math.Abs(Row3Col1 - other.Row3Col1) < Epsilon && 
-                   Math.Abs(Row3Col2 - other.Row3Col2) < Epsilon &&
-                   Math.Abs(Row3Col3 - other.Row3Col3) < Epsilon;
+            return Math.Abs(M11 - other.M11) < Epsilon && 
+                   Math.Abs(M12 - other.M12) < Epsilon && 
+                   Math.Abs(M13 - other.M13) < Epsilon &&
+                   Math.Abs(M14 - other.M14) < Epsilon &&
+                   Math.Abs(M21 - other.M21) < Epsilon && 
+                   Math.Abs(M22 - other.M22) < Epsilon && 
+                   Math.Abs(M23 - other.M23) < Epsilon &&
+                   Math.Abs(M24 - other.M24) < Epsilon &&
+                   Math.Abs(M31 - other.M31) < Epsilon && 
+                   Math.Abs(M32 - other.M32) < Epsilon && 
+                   Math.Abs(M33 - other.M33) < Epsilon &&
+                   Math.Abs(M34 - other.M34) < Epsilon &&
+                   Math.Abs(M41 - other.M41) < Epsilon && 
+                   Math.Abs(M42 - other.M42) < Epsilon && 
+                   Math.Abs(M43 - other.M43) < Epsilon &&
+                   Math.Abs(M44 - other.M44) < Epsilon;
         }
 
         public override bool Equals(object obj)
@@ -154,22 +221,22 @@ namespace RayTracer.Common.Primitives
         {
             unchecked
             {
-                var hashCode = Row0Col0.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row0Col1.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row0Col2.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row0Col3.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row1Col0.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row1Col1.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row1Col2.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row1Col3.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row2Col0.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row2Col1.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row2Col2.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row2Col3.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row3Col0.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row3Col1.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row3Col2.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row3Col3.GetHashCode();
+                var hashCode = M11.GetHashCode();
+                hashCode = (hashCode * 397) ^ M12.GetHashCode();
+                hashCode = (hashCode * 397) ^ M13.GetHashCode();
+                hashCode = (hashCode * 397) ^ M14.GetHashCode();
+                hashCode = (hashCode * 397) ^ M21.GetHashCode();
+                hashCode = (hashCode * 397) ^ M22.GetHashCode();
+                hashCode = (hashCode * 397) ^ M23.GetHashCode();
+                hashCode = (hashCode * 397) ^ M24.GetHashCode();
+                hashCode = (hashCode * 397) ^ M31.GetHashCode();
+                hashCode = (hashCode * 397) ^ M32.GetHashCode();
+                hashCode = (hashCode * 397) ^ M33.GetHashCode();
+                hashCode = (hashCode * 397) ^ M34.GetHashCode();
+                hashCode = (hashCode * 397) ^ M41.GetHashCode();
+                hashCode = (hashCode * 397) ^ M42.GetHashCode();
+                hashCode = (hashCode * 397) ^ M43.GetHashCode();
+                hashCode = (hashCode * 397) ^ M44.GetHashCode();
                 return hashCode;
             }
         }

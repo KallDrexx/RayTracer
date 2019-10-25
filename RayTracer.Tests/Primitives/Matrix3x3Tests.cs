@@ -11,16 +11,16 @@ namespace RayTracer.Tests.Primitives
         {
             var matrix1 = new Matrix3X3
             {
-                Row0Col0 = -3, Row0Col1 = 5, Row0Col2 = 5,
-                Row1Col0 = 1, Row1Col1 = -2, Row1Col2 = 12,
-                Row2Col0 = 8, Row2Col1 = -9, Row2Col2 = -10,
+                M11 = -3, M12 = 5, M13 = 5,
+                M21 = 1, M22 = -2, M23 = 12,
+                M31 = 8, M32 = -9, M33 = -10,
             };
             
             var matrix2 = new Matrix3X3
             {
-                Row0Col0 = -3, Row0Col1 = 5, Row0Col2 = 5,
-                Row1Col0 = 1, Row1Col1 = -2, Row1Col2 = 12,
-                Row2Col0 = 8, Row2Col1 = -9, Row2Col2 = -10,
+                M11 = -3, M12 = 5, M13 = 5,
+                M21 = 1, M22 = -2, M23 = 12,
+                M31 = 8, M32 = -9, M33 = -10,
             };
             
             matrix1.ShouldBe(matrix2);
@@ -31,19 +31,38 @@ namespace RayTracer.Tests.Primitives
         {
             var matrix1 = new Matrix3X3
             {
-                Row0Col0 = -3, Row0Col1 = 5, Row0Col2 = 5,
-                Row1Col0 = 1, Row1Col1 = -2, Row1Col2 = 12,
-                Row2Col0 = 8, Row2Col1 = -9, Row2Col2 = -10,
+                M11 = -3, M12 = 5, M13 = 5,
+                M21 = 1, M22 = -2, M23 = 12,
+                M31 = 8, M32 = -9, M33 = -10,
             };
             
             var matrix2 = new Matrix3X3
             {
-                Row0Col0 = -3, Row0Col1 = 5, Row0Col2 = 5,
-                Row1Col0 = 1, Row1Col1 = -3, Row1Col2 = 12,
-                Row2Col0 = 8, Row2Col1 = -9, Row2Col2 = -10,
+                M11 = -3, M12 = 5, M13 = 5,
+                M21 = 1, M22 = -3, M23 = 12,
+                M31 = 8, M32 = -9, M33 = -10,
             };
             
             matrix1.ShouldNotBe(matrix2);
+        }
+
+        [Fact]
+        public void Can_Get_Bottom_Left_Sub_Matrix()
+        {
+            var matrix = new Matrix3X3
+            {
+                M11 = 1, M12 = 5, M13 = 0,
+                M21 = -3, M22 = 2, M23 = 7,
+                M31 = 0, M32 = 6, M33 = -3,
+            };
+
+            var result = matrix.GetSubMatrix(1, 3);
+            
+            result.ShouldBe(new Matrix2X2
+            {
+                M11 = -3, M12 = 2,
+                M21 = 0, M22 = 6,
+            });
         }
     }
 }

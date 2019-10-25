@@ -11,14 +11,14 @@ namespace RayTracer.Tests.Primitives
         {
             var matrix1 = new Matrix2X2
             {
-                Row0Col0 = -3, Row0Col1 = 5,
-                Row1Col0 = 1, Row1Col1 = -2,
+                M11 = -3, M12 = 5,
+                M21 = 1, M22 = -2,
             };
             
             var matrix2 = new Matrix2X2
             {
-                Row0Col0 = -3, Row0Col1 = 5,
-                Row1Col0 = 1, Row1Col1 = -2,
+                M11 = -3, M12 = 5,
+                M21 = 1, M22 = -2,
             };
             
             matrix1.ShouldBe(matrix2);
@@ -29,17 +29,31 @@ namespace RayTracer.Tests.Primitives
         {
             var matrix1 = new Matrix2X2
             {
-                Row0Col0 = -3, Row0Col1 = 5,
-                Row1Col0 = 1, Row1Col1 = -2,
+                M11 = -3, M12 = 5,
+                M21 = 1, M22 = -2,
             };
             
             var matrix2 = new Matrix2X2
             {
-                Row0Col0 = -3, Row0Col1 = 5,
-                Row1Col0 = 1, Row1Col1 = -5,
+                M11 = -3, M12 = 5,
+                M21 = 1, M22 = -5,
             };
             
             matrix1.ShouldNotBe(matrix2);
+        }
+
+        [Fact]
+        public void Can_Get_Determinate_Of_Matrix()
+        {
+            var matrix = new Matrix2X2
+            {
+                M11 = 1, M12 = 5,
+                M21 = -3, M22 = 2,
+            };
+
+            var result = matrix.Determinant();
+
+            result.ShouldBe(17);
         }
     }
 }

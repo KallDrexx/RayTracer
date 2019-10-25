@@ -6,8 +6,8 @@ namespace RayTracer.Common.Primitives
     {
         private const float Epsilon = 0.00001f;
 
-        public double Row0Col0, Row0Col1, 
-            Row1Col0, Row1Col1;
+        public double M11, M12, 
+            M21, M22;
 
         public static bool operator ==(Matrix2X2 first, Matrix2X2 second)
         {
@@ -21,10 +21,10 @@ namespace RayTracer.Common.Primitives
 
         public bool Equals(Matrix2X2 other)
         {
-            return Math.Abs(Row0Col0 - other.Row0Col0) < Epsilon && 
-                   Math.Abs(Row0Col1 - other.Row0Col1) < Epsilon && 
-                   Math.Abs(Row1Col0 - other.Row1Col0) < Epsilon &&
-                   Math.Abs(Row1Col1 - other.Row1Col1) < Epsilon;
+            return Math.Abs(M11 - other.M11) < Epsilon && 
+                   Math.Abs(M12 - other.M12) < Epsilon && 
+                   Math.Abs(M21 - other.M21) < Epsilon &&
+                   Math.Abs(M22 - other.M22) < Epsilon;
         }
 
         public override bool Equals(object obj)
@@ -36,12 +36,17 @@ namespace RayTracer.Common.Primitives
         {
             unchecked
             {
-                var hashCode = Row0Col0.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row0Col1.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row1Col0.GetHashCode();
-                hashCode = (hashCode * 397) ^ Row1Col1.GetHashCode();
+                var hashCode = M11.GetHashCode();
+                hashCode = (hashCode * 397) ^ M12.GetHashCode();
+                hashCode = (hashCode * 397) ^ M21.GetHashCode();
+                hashCode = (hashCode * 397) ^ M22.GetHashCode();
                 return hashCode;
             }
+        }
+
+        public double Determinant()
+        {
+            return M11 * M22 - M12 * M21;
         }
     }
 }
