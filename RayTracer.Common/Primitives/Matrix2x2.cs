@@ -19,7 +19,7 @@ namespace RayTracer.Common.Primitives
             return !first.Equals(second);
         }
 
-        public double GetDeterminant()
+        public double Determinant()
         {
             return M11 * M22 - M12 * M21;
         }

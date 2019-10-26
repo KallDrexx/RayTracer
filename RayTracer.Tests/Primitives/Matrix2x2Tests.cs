@@ -51,7 +51,7 @@ namespace RayTracer.Tests.Primitives
                 M21 = -3, M22 = 2,
             };
 
-            var result = matrix.GetDeterminant();
+            var result = matrix.Determinant();
 
             result.ShouldBe(17);
         }

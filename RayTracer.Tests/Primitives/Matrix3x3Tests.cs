@@ -117,7 +117,7 @@ namespace RayTracer.Tests.Primitives
                 M31 = 2, M32 = 6, M33 = 4,
             };
             
-            matrix.GetDeterminant().ShouldBe(-196);
+            matrix.Determinant().ShouldBe(-196);
         }
     }
 }

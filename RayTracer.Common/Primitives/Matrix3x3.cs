@@ -60,7 +60,7 @@ namespace RayTracer.Common.Primitives
             ValidateRowColumnBounds(row, column);
 
             var subMatrix = GetSubMatrix(row, column);
-            return subMatrix.GetDeterminant();
+            return subMatrix.Determinant();
         }
 
         public double GetCoFactor(int row, int column)
@@ -71,7 +71,7 @@ namespace RayTracer.Common.Primitives
             return (row + column) % 2 == 0 ? minor : -minor;
         }
 
-        public double GetDeterminant()
+        public double Determinant()
         {
             return M11 * GetCoFactor(1, 1) +
                    M12 * GetCoFactor(1, 2) +

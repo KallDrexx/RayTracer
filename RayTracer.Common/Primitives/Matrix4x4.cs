@@ -184,7 +184,7 @@ namespace RayTracer.Common.Primitives
             };
         }
 
-        public double GetDeterminant()
+        public double Determinant()
         {
             return M11 * GetCoFactor(1, 1) +
                    M12 * GetCoFactor(1, 2) +
@@ -194,7 +194,7 @@ namespace RayTracer.Common.Primitives
 
         public (bool wasInvertible, Matrix4X4 inverse) Invert()
         {
-            var determinant = GetDeterminant();
+            var determinant = Determinant();
             if (Math.Abs(determinant) < Epsilon)
             {
                 return (false, new Matrix4X4());
@@ -280,7 +280,7 @@ namespace RayTracer.Common.Primitives
 
         private double GetCoFactor(int row, int column)
         {
-            var minor = GetSubMatrix(row, column).GetDeterminant();
+            var minor = GetSubMatrix(row, column).Determinant();
             return (row + column) % 2 == 0 ? minor : -minor;
         }
     }

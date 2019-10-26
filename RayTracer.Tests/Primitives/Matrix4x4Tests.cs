@@ -165,8 +165,8 @@ namespace RayTracer.Tests.Primitives
                 M41 = 9, M42 = 1, M43 = 7, M44 = -6,
             };
 
-            matrix1.GetDeterminant().ShouldBe(-4071);
-            matrix2.GetDeterminant().ShouldBe(-2120);
+            matrix1.Determinant().ShouldBe(-4071);
+            matrix2.Determinant().ShouldBe(-2120);
         }
 
         [Fact]
