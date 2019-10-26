@@ -184,12 +184,49 @@ namespace RayTracer.Common.Primitives
             };
         }
 
+        public double GetDeterminant()
+        {
+            return M11 * GetCoFactor(1, 1) +
+                   M12 * GetCoFactor(1, 2) +
+                   M13 * GetCoFactor(1, 3) +
+                   M14 * GetCoFactor(1, 4);
+        }
+
+        public (bool wasInvertible, Matrix4X4 inverse) Invert()
+        {
+            var determinant = GetDeterminant();
+            if (Math.Abs(determinant) < Epsilon)
+            {
+                return (false, new Matrix4X4());
+            }
+            
+            return (true, new Matrix4X4
+            {
+                M11 = GetCoFactor(1, 1) / determinant,
+                M12 = GetCoFactor(2, 1) / determinant,
+                M13 = GetCoFactor(3, 1) / determinant,
+                M14 = GetCoFactor(4, 1) / determinant,
+                M21 = GetCoFactor(1, 2) / determinant,
+                M22 = GetCoFactor(2, 2) / determinant,
+                M23 = GetCoFactor(3, 2) / determinant,
+                M24 = GetCoFactor(4, 2) / determinant,
+                M31 = GetCoFactor(1, 3) / determinant,
+                M32 = GetCoFactor(2, 3) / determinant,
+                M33 = GetCoFactor(3, 3) / determinant,
+                M34 = GetCoFactor(4, 3) / determinant,
+                M41 = GetCoFactor(1, 4) / determinant,
+                M42 = GetCoFactor(2, 4) / determinant,
+                M43 = GetCoFactor(3, 4) / determinant,
+                M44 = GetCoFactor(4, 4) / determinant,
+            });
+        }
+
         public override string ToString()
         {
             return $"{M11}, {M12}, {M13}, {M14}{Environment.NewLine}" +
                    $"{M21}, {M22}, {M23}, {M24}{Environment.NewLine}" +
                    $"{M31}, {M32}, {M33}, {M34}{Environment.NewLine}" +
-                   $"{M41}, {M42}, {M43}, {M44}";
+                   $"{M41}, {M42}, {M43}, {M44}{Environment.NewLine}";
         }
 
         public bool Equals(Matrix4X4 other)
@@ -239,6 +276,12 @@ namespace RayTracer.Common.Primitives
                 hashCode = (hashCode * 397) ^ M44.GetHashCode();
                 return hashCode;
             }
+        }
+
+        private double GetCoFactor(int row, int column)
+        {
+            var minor = GetSubMatrix(row, column).GetDeterminant();
+            return (row + column) % 2 == 0 ? minor : -minor;
         }
     }
 }

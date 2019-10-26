@@ -19,6 +19,17 @@ namespace RayTracer.Common.Primitives
             return !first.Equals(second);
         }
 
+        public double GetDeterminant()
+        {
+            return M11 * M22 - M12 * M21;
+        }
+
+        public override string ToString()
+        {
+            return $"{M11}, {M12}{Environment.NewLine}" +
+                   $"{M21}, {M22}{Environment.NewLine}";
+        }
+
         public bool Equals(Matrix2X2 other)
         {
             return Math.Abs(M11 - other.M11) < Epsilon && 
@@ -42,11 +53,6 @@ namespace RayTracer.Common.Primitives
                 hashCode = (hashCode * 397) ^ M22.GetHashCode();
                 return hashCode;
             }
-        }
-
-        public double Determinant()
-        {
-            return M11 * M22 - M12 * M21;
         }
     }
 }

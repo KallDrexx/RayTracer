@@ -22,6 +22,11 @@ namespace RayTracer.Common.Primitives
 
         public Matrix2X2 GetSubMatrix(int rowToRemove, int columnToRemove)
         {
+            if (rowToRemove <= 0 || rowToRemove > 3 || columnToRemove <= 0 || columnToRemove > 3)
+            {
+                throw new InvalidOperationException($"({rowToRemove}, {columnToRemove}) is out of bounds for a 3x3 matrix");
+            }
+            
             return new Matrix2X2
             {
                 M11 = rowToRemove == 1
@@ -31,10 +36,10 @@ namespace RayTracer.Common.Primitives
                         : M11,
 
                 M12 = rowToRemove == 1
-                    ? columnToRemove == 2 ? M23 : M22
-                    : columnToRemove == 2
-                        ? M13
-                        : M12,
+                    ? columnToRemove == 3 ? M22 : M23
+                    : columnToRemove == 3
+                        ? M12
+                        : M13,
 
                 M21 = rowToRemove == 3
                     ? columnToRemove == 1 ? M22 : M21
@@ -43,11 +48,34 @@ namespace RayTracer.Common.Primitives
                         : M31,
 
                 M22 = rowToRemove == 3
-                    ? columnToRemove == 2 ? M23 : M22
-                    : columnToRemove == 2
-                        ? M33
-                        : M32,
+                    ? columnToRemove == 3 ? M22 : M23
+                    : columnToRemove == 3
+                        ? M32
+                        : M33,
             };
+        }
+
+        public double GetMinor(int row, int column)
+        {
+            ValidateRowColumnBounds(row, column);
+
+            var subMatrix = GetSubMatrix(row, column);
+            return subMatrix.GetDeterminant();
+        }
+
+        public double GetCoFactor(int row, int column)
+        {
+            ValidateRowColumnBounds(row, column);
+
+            var minor = GetMinor(row, column);
+            return (row + column) % 2 == 0 ? minor : -minor;
+        }
+
+        public double GetDeterminant()
+        {
+            return M11 * GetCoFactor(1, 1) +
+                   M12 * GetCoFactor(1, 2) +
+                   M13 * GetCoFactor(1, 3);
         }
 
         public bool Equals(Matrix3X3 other)
@@ -89,7 +117,15 @@ namespace RayTracer.Common.Primitives
         {
             return $"{M11}, {M12}, {M13}{Environment.NewLine}" +
                    $"{M21}, {M22}, {M23}{Environment.NewLine}" +
-                   $"{M31}, {M32}, {M33}";
+                   $"{M31}, {M32}, {M33}{Environment.NewLine}";
+        }
+
+        private static void ValidateRowColumnBounds(int row, int column)
+        {
+            if (row <= 0 || row > 3 || column <= 0 || column > 3)
+            {
+                throw new InvalidOperationException($"({row}, {column}) is out of bounds for a 3x3 matrix");
+            }
         }
     }
 }
