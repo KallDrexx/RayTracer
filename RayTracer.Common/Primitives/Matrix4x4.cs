@@ -16,6 +16,16 @@ namespace RayTracer.Common.Primitives
             M31, M32, M33, M34,
             M41, M42, M43, M44;
 
+        public static Matrix4X4 FromTranslation(float x, float y, float z)
+        {
+            var identity = IdentityMatrix;
+            identity.M14 = x;
+            identity.M24 = y;
+            identity.M34 = z;
+
+            return identity;
+        }
+        
         public static bool operator ==(Matrix4X4 first, Matrix4X4 second)
         {
             return first.Equals(second);

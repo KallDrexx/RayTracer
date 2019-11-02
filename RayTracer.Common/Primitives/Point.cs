@@ -54,6 +54,27 @@ namespace RayTracer.Common.Primitives
                 first.Y - second.Y,
                 first.Z - second.Z);
         }
+        
+        public static Point operator *(Matrix4X4 matrix, Point point)
+        {
+            // Dot product of the point to each row in the matrix
+            var x = matrix.M11 * point.X +
+                    matrix.M12 * point.Y +
+                    matrix.M13 * point.Z +
+                    matrix.M14;
+            
+            var y = matrix.M21 * point.X +
+                    matrix.M22 * point.Y +
+                    matrix.M23 * point.Z +
+                    matrix.M24;
+            
+            var z = matrix.M31 * point.X +
+                    matrix.M32 * point.Y +
+                    matrix.M33 * point.Z +
+                    matrix.M34;
+            
+            return new Point(x, y, z);
+        }
 
         public bool Equals(Point other)
         {

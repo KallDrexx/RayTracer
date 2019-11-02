@@ -267,5 +267,18 @@ namespace RayTracer.Tests.Primitives
             
             (product * matrix2.Invert().inverse).ShouldBe(matrix1);
         }
+
+        [Fact]
+        public void Can_Create_Matrix_From_Translation()
+        {
+            Matrix4X4.FromTranslation(5, -3, 2)
+                .ShouldBe(new Matrix4X4
+                {
+                    M11 = 1, M12 = 0, M13 = 0, M14 = 5,
+                    M21 = 0, M22 = 1, M23 = 0, M24 = -3,
+                    M31 = 0, M32 = 0, M33 = 1, M34 = 2,
+                    M41 = 0, M42 = 0, M43 = 0, M44 = 1,
+                });
+        }
     }
 }
