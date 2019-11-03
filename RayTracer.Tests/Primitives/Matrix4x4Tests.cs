@@ -2,6 +2,7 @@ using System;
 using RayTracer.Common.Primitives;
 using Shouldly;
 using Xunit;
+using Tuple = RayTracer.Common.Primitives.Tuple;
 
 namespace RayTracer.Tests.Primitives
 {
@@ -267,6 +268,21 @@ namespace RayTracer.Tests.Primitives
             var product = matrix1 * matrix2;
             
             (product * matrix2.Invert().inverse).ShouldBe(matrix1);
+        }
+
+        [Fact]
+        public void Multiply_By_A_Tuple()
+        {
+            var matrix1 = new Matrix4X4
+            {
+                M11 = 1, M12 = 2, M13 = 3, M14 = 4,
+                M21 = 2, M22 = 4, M23 = 4, M24 = 2,
+                M31 = 8, M32 = 6, M33 = 4, M34 = 1,
+                M41 = 0, M42 = 0, M43 = 0, M44 = 1,
+            };
+            
+            (matrix1 * new Tuple(1, 2, 3, 1))
+                .ShouldBe(new Tuple(18, 24, 33, 1));
         }
 
         [Fact]

@@ -180,22 +180,22 @@ namespace RayTracer.Common.Primitives
         
         public static Point operator *(Matrix4X4 matrix, Point point)
         {
-            var x = matrix.GetTupleForRow(1).DotProduct(point.Value);
-            var y = matrix.GetTupleForRow(2).DotProduct(point.Value);
-            var z = matrix.GetTupleForRow(3).DotProduct(point.Value);
-            var w = matrix.GetTupleForRow(4).DotProduct(point.Value);
-            
-            return new Point(new Tuple(x, y, z, w));
+            return new Point(matrix * point.Value);
         }
         
         public static Vector operator *(Matrix4X4 matrix, Vector vector)
         {
-            var x = matrix.GetTupleForRow(1).DotProduct(vector.Value);
-            var y = matrix.GetTupleForRow(2).DotProduct(vector.Value);
-            var z = matrix.GetTupleForRow(3).DotProduct(vector.Value);
-            var w = matrix.GetTupleForRow(4).DotProduct(vector.Value);
+            return new Vector(matrix * vector.Value);
+        }
+
+        public static Tuple operator *(Matrix4X4 matrix, Tuple tuple)
+        {
+            var x = matrix.GetTupleForRow(1).DotProduct(tuple);
+            var y = matrix.GetTupleForRow(2).DotProduct(tuple);
+            var z = matrix.GetTupleForRow(3).DotProduct(tuple);
+            var w = matrix.GetTupleForRow(4).DotProduct(tuple);
             
-            return new Vector(new Tuple(x, y, z, w));
+            return new Tuple(x, y, z, w);
         }
 
         public Matrix4X4 Transpose()
