@@ -16,7 +16,7 @@ namespace RayTracer.Common.Primitives
             M31, M32, M33, M34,
             M41, M42, M43, M44;
 
-        public static Matrix4X4 FromTranslation(float x, float y, float z)
+        public static Matrix4X4 CreateTranslation(double x, double y, double z)
         {
             var identity = IdentityMatrix;
             identity.M14 = x;
@@ -24,6 +24,62 @@ namespace RayTracer.Common.Primitives
             identity.M34 = z;
 
             return identity;
+        }
+
+        public static Matrix4X4 CreateScale(double x, double y, double z)
+        {
+            var identity = IdentityMatrix;
+            identity.M11 = x;
+            identity.M22 = y;
+            identity.M33 = z;
+
+            return identity;
+        }
+
+        public static Matrix4X4 CreateRotationX(double radians)
+        {
+            var matrix = IdentityMatrix;
+            matrix.M22 = Math.Cos(radians);
+            matrix.M23 = -Math.Sin(radians);
+            matrix.M32 = Math.Sin(radians);
+            matrix.M33 = Math.Cos(radians);
+
+            return matrix;
+        }
+
+        public static Matrix4X4 CreateRotationY(double radians)
+        {
+            var matrix = IdentityMatrix;
+            matrix.M11 = Math.Cos(radians);
+            matrix.M13 = Math.Sin(radians);
+            matrix.M31 = -Math.Sin(radians);
+            matrix.M33 = Math.Cos(radians);
+
+            return matrix;
+        }
+
+        public static Matrix4X4 CreateRotationZ(double radians)
+        {
+            var matrix = IdentityMatrix;
+            matrix.M11 = Math.Cos(radians);
+            matrix.M12 = -Math.Sin(radians);
+            matrix.M21 = Math.Sin(radians);
+            matrix.M22 = Math.Cos(radians);
+
+            return matrix;
+        }
+
+        public static Matrix4X4 CreateSkew(double xToY, double xToZ, double yToX, double yToZ, double zToX, double zToY)
+        {
+            var matrix = IdentityMatrix;
+            matrix.M12 = xToY;
+            matrix.M13 = xToZ;
+            matrix.M21 = yToX;
+            matrix.M23 = yToZ;
+            matrix.M31 = zToX;
+            matrix.M32 = zToY;
+
+            return matrix;
         }
         
         public static bool operator ==(Matrix4X4 first, Matrix4X4 second)
@@ -130,6 +186,16 @@ namespace RayTracer.Common.Primitives
             var w = matrix.GetTupleForRow(4).DotProduct(point.Value);
             
             return new Point(new Tuple(x, y, z, w));
+        }
+        
+        public static Vector operator *(Matrix4X4 matrix, Vector vector)
+        {
+            var x = matrix.GetTupleForRow(1).DotProduct(vector.Value);
+            var y = matrix.GetTupleForRow(2).DotProduct(vector.Value);
+            var z = matrix.GetTupleForRow(3).DotProduct(vector.Value);
+            var w = matrix.GetTupleForRow(4).DotProduct(vector.Value);
+            
+            return new Vector(new Tuple(x, y, z, w));
         }
 
         public Matrix4X4 Transpose()

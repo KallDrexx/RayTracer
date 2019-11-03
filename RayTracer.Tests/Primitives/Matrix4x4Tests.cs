@@ -1,3 +1,4 @@
+using System;
 using RayTracer.Common.Primitives;
 using Shouldly;
 using Xunit;
@@ -271,7 +272,7 @@ namespace RayTracer.Tests.Primitives
         [Fact]
         public void Can_Create_Matrix_From_Translation()
         {
-            Matrix4X4.FromTranslation(5, -3, 2)
+            Matrix4X4.CreateTranslation(5, -3, 2)
                 .ShouldBe(new Matrix4X4
                 {
                     M11 = 1, M12 = 0, M13 = 0, M14 = 5,
@@ -282,13 +283,114 @@ namespace RayTracer.Tests.Primitives
         }
 
         [Fact]
-        public void Can_Multiply_By_Translation_Matrix()
+        public void Can_Create_Matrix_From_Scaling()
         {
-            var transform = Matrix4X4.FromTranslation(5, -3, 2);
+            Matrix4X4.CreateScale(5, -3, 2)
+                .ShouldBe(new Matrix4X4
+                {
+                    M11 = 5, M12 = 0, M13 = 0, M14 = 0,
+                    M21 = 0, M22 = -3, M23 = 0, M24 = 0,
+                    M31 = 0, M32 = 0, M33 = 2, M34 = 0,
+                    M41 = 0, M42 = 0, M43 = 0, M44 = 1,
+                });
+        }
+
+        [Fact]
+        public void Can_Multiply_Point_By_Translation_Matrix()
+        {
+            var transform = Matrix4X4.CreateTranslation(5, -3, 2);
             var point = new Point(-3, 4, 5);
             
             (transform * point).ShouldBe(new Point(2, 1, 7));
             (transform.Invert().inverse * point).ShouldBe(new Point(-8, 7, 3));
+        }
+        
+        [Fact]
+        public void Can_Multiply_Vector_By_Translation_Matrix()
+        {
+            var transform = Matrix4X4.CreateTranslation(5, -3, 2);
+            var vector = new Vector(-3, 4, 5);
+            
+            (transform * vector).ShouldBe(vector);
+        }
+
+        [Fact]
+        public void Can_Multiply_Point_By_Scaling_Matrix()
+        {
+            var scaling = Matrix4X4.CreateScale(2, 3, 4);
+            var negativeScale = Matrix4X4.CreateScale(-1, 1, 1);
+            var point = new Point(-4, 6, 8);
+            
+            (scaling * point).ShouldBe(new Point(-8, 18, 32));
+            (negativeScale * point).ShouldBe(new Point(4, 6, 8));
+        }
+        
+        [Fact]
+        public void Can_Multiply_Vector_By_Scaling_Matrix()
+        {
+            var scaling = Matrix4X4.CreateScale(2, 3, 4);
+            var vector = new Vector(-4, 6, 8);
+            
+            (scaling * vector).ShouldBe(new Vector(-8, 18, 32));
+            (scaling.Invert().inverse * vector).ShouldBe(new Vector(-2, 2, 2));
+        }
+
+        [Fact]
+        public void Can_Rotate_Point_Around_X()
+        {
+            var point = new Point(0, 1, 0);
+            var halfQuarter = Matrix4X4.CreateRotationX(Math.PI / 4);
+            var fullQuarter = Matrix4X4.CreateRotationX(Math.PI / 2);
+            
+            (halfQuarter * point).ShouldBe(new Point(0, Math.Sqrt(2) / 2, Math.Sqrt(2) / 2));
+            (fullQuarter * point).ShouldBe(new Point(0, 0, 1));
+            (halfQuarter.Invert().inverse * point).ShouldBe(new Point(0, Math.Sqrt(2) / 2, -Math.Sqrt(2) / 2));
+        }
+
+        [Fact]
+        public void Can_Rotate_Point_Around_Y()
+        {
+            var point = new Point(0, 0, 1);
+            var halfQuarter = Matrix4X4.CreateRotationY(Math.PI / 4);
+            var fullQuarter = Matrix4X4.CreateRotationY(Math.PI / 2);
+            
+            (halfQuarter * point).ShouldBe(new Point(Math.Sqrt(2) / 2, 0, Math.Sqrt(2) / 2));
+            (fullQuarter * point).ShouldBe(new Point(1, 0, 0));
+        }
+
+        [Fact]
+        public void Can_Rotate_Point_Around_Z()
+        {
+            var point = new Point(0, 1, 0);
+            var halfQuarter = Matrix4X4.CreateRotationZ(Math.PI / 4);
+            var fullQuarter = Matrix4X4.CreateRotationZ(Math.PI / 2);
+            
+            (halfQuarter * point).ShouldBe(new Point(-Math.Sqrt(2) / 2, Math.Sqrt(2) / 2, 0));
+            (fullQuarter * point).ShouldBe(new Point(-1, 0, 0));
+        }
+
+        [Fact]
+        public void Skew_Tests()
+        {
+            var point = new Point(2, 3, 4);
+            
+            (Matrix4X4.CreateSkew(1, 0, 0, 0, 0, 0) * point)
+                .ShouldBe(new Point(5, 3, 4));
+            
+            (Matrix4X4.CreateSkew(0, 1, 0, 0, 0, 0) * point)
+                .ShouldBe(new Point(6, 3, 4));
+            
+            (Matrix4X4.CreateSkew(0, 0, 1, 0, 0, 0) * point)
+                .ShouldBe(new Point(2, 5, 4));
+            
+            (Matrix4X4.CreateSkew(0, 0, 0, 1, 0, 0) * point)
+                .ShouldBe(new Point(2, 7, 4));
+            
+            (Matrix4X4.CreateSkew(0, 0, 0, 0, 1, 0) * point)
+                .ShouldBe(new Point(2, 3, 6));
+            
+            (Matrix4X4.CreateSkew(0, 0, 0, 0, 0, 1) * point)
+                .ShouldBe(new Point(2, 3, 7));
         }
     }
 }
