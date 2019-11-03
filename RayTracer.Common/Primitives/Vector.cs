@@ -7,17 +7,27 @@ namespace RayTracer.Common.Primitives
         private const float Epsilon = 0.00001f;
         
         public static readonly Vector Zero  = new Vector(0f, 0f, 0f);
-        public readonly double X;
-        public readonly double Y;
-        public readonly double Z;
+        
+        internal Tuple Value { get; }
+        public double X => Value.X;
+        public double Y => Value.Y;
+        public double Z => Value.Z;
 
         public double Magnitude => Math.Sqrt(Math.Pow(X, 2) + Math.Pow(Y, 2) + Math.Pow(Z, 2));
 
         public Vector(double x, double y, double z)
         {
-            X = x;
-            Y = y;
-            Z = z;
+            Value = new Tuple(x, y, z, 0);
+        }
+
+        internal Vector(Tuple tuple)
+        {
+            if (Math.Abs(tuple.W) > Epsilon)
+            {
+                throw new InvalidOperationException("Tuple is not a valid vector tuple");
+            }
+
+            Value = tuple;
         }
 
         public static bool operator ==(Vector first, Vector second)
@@ -32,48 +42,41 @@ namespace RayTracer.Common.Primitives
 
         public static Vector operator +(Vector first, Vector second)
         {
-            return new Vector(first.X + second.X,
-                first.Y + second.Y,
-                first.Z + second.Z);
+            var tuple = first.Value + second.Value;
+            return new Vector(tuple);
         }
 
         public static Vector operator -(Vector first, Vector second)
         {
-            return new Vector(first.X - second.X,
-                first.Y - second.Y,
-                first.Z - second.Z);
+            var tuple = first.Value - second.Value;
+            return new Vector(tuple);
         }
 
         public static Vector operator -(Vector vector)
         {
-            return Zero - vector;
+            return new Vector(-vector.Value);
         }
 
         public static Vector operator *(Vector vector, double scalar)
         {
-            return new Vector(vector.X * scalar,
-                vector.Y * scalar,
-                vector.Z * scalar);
+            var tuple = vector.Value * scalar;
+            return new Vector(tuple);
         }
 
         public static Vector operator /(Vector vector, double scalar)
         {
-            return new Vector(vector.X / scalar,
-                vector.Y / scalar,
-                vector.Z / scalar);
+            var tuple = vector.Value / scalar;
+            return new Vector(tuple);
         }
 
         public Vector Normalize()
         {
-            var magnitude = Magnitude;
-            return new Vector(X / magnitude, Y / magnitude, Z / magnitude);
+            return new Vector(Value.Normalize());
         }
 
         public double Dot(Vector other)
         {
-            return X * other.X +
-                   Y * other.Y +
-                   Z * other.Z;
+            return Value.DotProduct(other.Value);
         }
 
         public Vector Cross(Vector other)
@@ -85,9 +88,7 @@ namespace RayTracer.Common.Primitives
         
         public bool Equals(Vector other)
         {
-            return Math.Abs(X - other.X) < Epsilon &&
-                   Math.Abs(Y - other.Y) < Epsilon &&
-                   Math.Abs(Z - other.Z) < Epsilon;
+            return Value.Equals(other.Value);
         }
         
         public override string ToString()
@@ -102,13 +103,7 @@ namespace RayTracer.Common.Primitives
 
         public override int GetHashCode()
         {
-            unchecked
-            {
-                var hashCode = X.GetHashCode();
-                hashCode = (hashCode * 397) ^ Y.GetHashCode();
-                hashCode = (hashCode * 397) ^ Z.GetHashCode();
-                return hashCode;
-            }
+            return Value.GetHashCode();
         }
     }
 }

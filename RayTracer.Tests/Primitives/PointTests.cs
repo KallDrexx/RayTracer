@@ -58,15 +58,5 @@ namespace RayTracer.Tests.Primitives
             (new Point(1f, 2f, 3f) - new Vector(4f, 5f, 6f))
                 .ShouldBe(new Point(-3f, -3f, -3f));
         }
-
-        [Fact]
-        public void Can_Multiply_By_Translation_Matrix()
-        {
-            var transform = Matrix4X4.FromTranslation(5, -3, 2);
-            var point = new Point(-3, 4, 5);
-            
-            (transform * point).ShouldBe(new Point(2, 1, 7));
-            (transform.Invert().inverse * point).ShouldBe(new Point(-8, 7, 3));
-        }
     }
 }

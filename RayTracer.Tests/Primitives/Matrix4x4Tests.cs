@@ -280,5 +280,15 @@ namespace RayTracer.Tests.Primitives
                     M41 = 0, M42 = 0, M43 = 0, M44 = 1,
                 });
         }
+
+        [Fact]
+        public void Can_Multiply_By_Translation_Matrix()
+        {
+            var transform = Matrix4X4.FromTranslation(5, -3, 2);
+            var point = new Point(-3, 4, 5);
+            
+            (transform * point).ShouldBe(new Point(2, 1, 7));
+            (transform.Invert().inverse * point).ShouldBe(new Point(-8, 7, 3));
+        }
     }
 }

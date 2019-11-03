@@ -121,6 +121,16 @@ namespace RayTracer.Common.Primitives
                            first.M44 * second.M44,
             };
         }
+        
+        public static Point operator *(Matrix4X4 matrix, Point point)
+        {
+            var x = matrix.GetTupleForRow(1).DotProduct(point.Value);
+            var y = matrix.GetTupleForRow(2).DotProduct(point.Value);
+            var z = matrix.GetTupleForRow(3).DotProduct(point.Value);
+            var w = matrix.GetTupleForRow(4).DotProduct(point.Value);
+            
+            return new Point(new Tuple(x, y, z, w));
+        }
 
         public Matrix4X4 Transpose()
         {
@@ -292,6 +302,18 @@ namespace RayTracer.Common.Primitives
         {
             var minor = GetSubMatrix(row, column).Determinant();
             return (row + column) % 2 == 0 ? minor : -minor;
+        }
+
+        private Tuple GetTupleForRow(int row)
+        {
+            return row switch
+            {
+                1 => new Tuple(M11, M12, M13, M14),
+                2 => new Tuple(M21, M22, M23, M24),
+                3 => new Tuple(M31, M32, M33, M34),
+                4 => new Tuple(M41, M42, M43, M44),
+                _ => throw new IndexOutOfRangeException($"Row {row} is not valid for a 4x4 matrix")
+            };
         }
     }
 }

@@ -6,15 +6,24 @@ namespace RayTracer.Common.Primitives
     {
         private const float Epsilon = 0.00001f;
         
-        public readonly double X;
-        public readonly double Y;
-        public readonly double Z;
+        internal Tuple Value { get; }
+        public double X => Value.X;
+        public double Y => Value.Y;
+        public double Z => Value.Z;
 
         public Point(double x, double y, double z)
         {
-            X = x;
-            Y = y;
-            Z = z;
+            Value = new Tuple(x, y, z, 1);
+        }
+
+        internal Point(Tuple tuple)
+        {
+            if (Math.Abs(tuple.W - 1) > Epsilon)
+            {
+                throw new InvalidOperationException("Tuple is not a valid tuple representing a point");
+            }
+
+            Value = tuple;
         }
 
         public static bool operator ==(Point first, Point second)
@@ -29,58 +38,31 @@ namespace RayTracer.Common.Primitives
 
         public static Point operator +(Point point, Vector vector)
         {
-            return new Point(point.X + vector.X,
-                point.Y + vector.Y,
-                point.Z + vector.Z);
+            var tuple = point.Value + vector.Value;
+            return new Point(tuple);
         }
         
         public static Point operator +(Vector vector, Point point)
         {
-            return new Point(point.X + vector.X,
-                point.Y + vector.Y,
-                point.Z + vector.Z);
+            var tuple = point.Value + vector.Value;
+            return new Point(tuple);
         }
 
         public static Point operator -(Point point, Vector vector)
         {
-            return new Point(point.X - vector.X,
-                point.Y - vector.Y,
-                point.Z - vector.Z);
+            var tuple = point.Value - vector.Value;
+            return new Point(tuple);
         }
 
         public static Vector operator -(Point first, Point second)
         {
-            return new Vector(first.X - second.X,
-                first.Y - second.Y,
-                first.Z - second.Z);
-        }
-        
-        public static Point operator *(Matrix4X4 matrix, Point point)
-        {
-            // Dot product of the point to each row in the matrix
-            var x = matrix.M11 * point.X +
-                    matrix.M12 * point.Y +
-                    matrix.M13 * point.Z +
-                    matrix.M14;
-            
-            var y = matrix.M21 * point.X +
-                    matrix.M22 * point.Y +
-                    matrix.M23 * point.Z +
-                    matrix.M24;
-            
-            var z = matrix.M31 * point.X +
-                    matrix.M32 * point.Y +
-                    matrix.M33 * point.Z +
-                    matrix.M34;
-            
-            return new Point(x, y, z);
+            var tuple = first.Value - second.Value;
+            return new Vector(tuple);
         }
 
         public bool Equals(Point other)
         {
-            return Math.Abs(X - other.X) < Epsilon &&
-                   Math.Abs(Y - other.Y) < Epsilon &&
-                   Math.Abs(Z - other.Z) < Epsilon;
+            return Value.Equals(other.Value);
         }
 
         public override string ToString()
@@ -95,13 +77,7 @@ namespace RayTracer.Common.Primitives
 
         public override int GetHashCode()
         {
-            unchecked
-            {
-                var hashCode = X.GetHashCode();
-                hashCode = (hashCode * 397) ^ Y.GetHashCode();
-                hashCode = (hashCode * 397) ^ Z.GetHashCode();
-                return hashCode;
-            }
+            return Value.GetHashCode();
         }
     }
 }
