@@ -1,6 +1,7 @@
+using RayTracer.Common.Primitives;
 using SkiaSharp;
 
-namespace RayTracer.Common.Primitives
+namespace RayTracer.Common
 {
     public class Canvas
     {

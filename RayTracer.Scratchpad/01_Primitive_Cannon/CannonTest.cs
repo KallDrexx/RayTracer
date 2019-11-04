@@ -1,4 +1,5 @@
 using System;
+using RayTracer.Common;
 using RayTracer.Common.Primitives;
 using SkiaSharp;
 
