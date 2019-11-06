@@ -4,19 +4,11 @@ namespace RayTracer.Common.Core
 {
     public class Sphere
     {
-        public Point Origin { get; }
-        public double Radius { get; }
+        public Matrix4X4 Transform { get; set; }
 
-        public Sphere()
+        public Sphere(Matrix4X4? transform = null)
         {
-            Origin = new Point(0, 0, 0);
-            Radius = 1;
-        }
-        
-        public Sphere(Point origin, double radius)
-        {
-            Origin = origin;
-            Radius = radius;
+            Transform = transform ?? Matrix4X4.IdentityMatrix;
         }
     }
 }

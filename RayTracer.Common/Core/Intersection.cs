@@ -13,6 +13,11 @@ namespace RayTracer.Common.Core
             Object = o;
         }
 
+        public override string ToString()
+        {
+            return $"Intersection with {Object} at time {Time}";
+        }
+
         public bool Equals(Intersection other)
         {
             return Time.Equals(other.Time) && 

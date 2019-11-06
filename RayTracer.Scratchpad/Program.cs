@@ -1,6 +1,5 @@
-﻿using System;
-using RayTracer.Common.Primitives;
-using RayTracer.Scratchpad._02_Clock;
+﻿using RayTracer.Scratchpad._02_Clock;
+using RayTracer.Scratchpad._03_Ray_Sphere_Intersection;
 
 namespace RayTracer.Scratchpad
 {
@@ -9,7 +8,8 @@ namespace RayTracer.Scratchpad
         static void Main(string[] args)
         {
             //CannonTest.Run();
-            Clock.Run();
+            //Clock.Run();
+            RaySphereProof.Run();
         }
     }
 }

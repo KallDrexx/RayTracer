@@ -19,11 +19,28 @@ namespace RayTracer.Common.Core
             return Origin + (Direction * timeUnits);
         }
 
+        public Ray Transform(Matrix4X4 transformationMatrix)
+        {
+            var newOrigin = transformationMatrix * Origin;
+            var newVector = transformationMatrix * Direction;
+            
+            return new Ray(newOrigin, newVector);
+        }
+
         public IntersectionCollection Intersects(Sphere sphere)
         {
-            var distance = Origin - sphere.Origin;
-            var a = Direction.Dot(Direction);
-            var b = 2 * Direction.Dot(distance);
+            var (wasInvertible, inverse) = sphere.Transform.Invert();
+            if (!wasInvertible)
+            {
+                throw new InvalidOperationException("Sphere had a transform that can not be inverted");
+            }
+            
+            // Transform the ray to account for the sphere's transformation matrix
+            var transformedRay = Transform(inverse);
+            
+            var distance = transformedRay.Origin - new Point(0, 0, 0);
+            var a = transformedRay.Direction.Dot(transformedRay.Direction);
+            var b = 2 * transformedRay.Direction.Dot(distance);
             var c = distance.Dot(distance) - 1;
 
             var discriminant = Math.Pow(b, 2) - 4 * a * c;
