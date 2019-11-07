@@ -1,13 +1,12 @@
 using System;
 using RayTracer.Common;
 using RayTracer.Common.Primitives;
-using SkiaSharp;
 
 namespace RayTracer.Scratchpad._01_Primitive_Cannon
 {
-    public static class CannonTest
+    public class CannonTest : IExampleRunner
     {
-        public static void Run()
+        public Canvas Run()
         {
             var environment = new Environment
             {
@@ -48,9 +47,7 @@ namespace RayTracer.Scratchpad._01_Primitive_Cannon
                     $"Position after {count:0000} ticks: {projectile.Position} (velocity: {projectile.Velocity})");
             } while (projectile.Position.Y >= 0);
 
-            using var file = new SKFileWStream(@"c:\temp\test.png");
-            using var bitmap = canvas.RenderToBitmap();
-            SKPixmap.Encode(file, bitmap, SKEncodedImageFormat.Png, 100);
+            return canvas;
         }
 
         private static void Tick(Environment environment, Projectile projectile)

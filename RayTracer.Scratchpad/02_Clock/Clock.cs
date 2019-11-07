@@ -1,13 +1,12 @@
 using System;
 using RayTracer.Common;
 using RayTracer.Common.Primitives;
-using SkiaSharp;
 
 namespace RayTracer.Scratchpad._02_Clock
 {
-    public static class Clock
+    public class Clock : IExampleRunner
     {
-        public static void Run()
+        public Canvas Run()
         {
             const int height = 1000;
             const int width = 1000;
@@ -38,10 +37,8 @@ namespace RayTracer.Scratchpad._02_Clock
                 
                 DrawPixelOnCanvas(canvas, color, pixelX, pixelY);
             }
-            
-            using var file = new SKFileWStream(@"c:\temp\test.png");
-            using var bitmap = canvas.RenderToBitmap();
-            SKPixmap.Encode(file, bitmap, SKEncodedImageFormat.Png, 100);
+
+            return canvas;
         }
 
         private static void DrawPixelOnCanvas(Canvas canvas, Color color, int canvasX, int canvasY)
