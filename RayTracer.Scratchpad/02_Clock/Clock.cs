@@ -30,7 +30,7 @@ namespace RayTracer.Scratchpad._02_Clock
                 var color = pixelColor * intensity;
                 
                 var rotationAmount = rotation * rotationRadians;
-                var rotationTransform = transform.RotationZ(rotationAmount);
+                var rotationTransform = transform.RotateZ(rotationAmount);
 
                 var transformedLocation = rotationTransform.ApplyTo(origin);
                 var (pixelX, pixelY) = (X: middleX - (int) transformedLocation.X, Y: middleY - (int) transformedLocation.Y);

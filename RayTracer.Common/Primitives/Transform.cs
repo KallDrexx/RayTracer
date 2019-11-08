@@ -22,12 +22,12 @@ namespace RayTracer.Common.Primitives
             return new Transform(_transformMatrices, Matrix4X4.CreateRotationX(radians));
         }
 
-        public Transform RotationY(double radians)
+        public Transform RotateY(double radians)
         {
             return new Transform(_transformMatrices, Matrix4X4.CreateRotationY(radians));
         }
 
-        public Transform RotationZ(double radians)
+        public Transform RotateZ(double radians)
         {
             return new Transform(_transformMatrices, Matrix4X4.CreateRotationZ(radians));
         }
