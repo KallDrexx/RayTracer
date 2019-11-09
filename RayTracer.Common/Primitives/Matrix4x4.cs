@@ -185,7 +185,13 @@ namespace RayTracer.Common.Primitives
         
         public static Vector operator *(Matrix4X4 matrix, Vector vector)
         {
-            return new Vector(matrix * vector.Value);
+            var tuple = matrix * vector.Value;
+
+            // We can't use the Vector(Tuple) constructor due to surface normal calculations, where
+            // transposed inverted matrices may cause the `w` component to not be zero after multiplication.
+            // Technically this can be solved by only multiplying by a 3x3 sub-matrix instead of a 4x4, but
+            // this hack is easier/faster.
+            return new Vector(tuple.X, tuple.Y, tuple.Z);
         }
 
         public static Tuple operator *(Matrix4X4 matrix, Tuple tuple)

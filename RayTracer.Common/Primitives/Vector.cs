@@ -85,6 +85,11 @@ namespace RayTracer.Common.Primitives
                 Z * other.X - X * other.Z,
                 X * other.Y - Y * other.X);
         }
+
+        public Vector Reflect(Vector normal)
+        {
+            return this - normal * 2 * Dot(normal);
+        }
         
         public bool Equals(Vector other)
         {

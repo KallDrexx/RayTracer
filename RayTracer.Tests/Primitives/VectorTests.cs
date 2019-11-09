@@ -120,5 +120,15 @@ namespace RayTracer.Tests.Primitives
             new Vector(1f, 0f, 0f).Cross(new Vector(0f, 1f, 0f))
                 .ShouldBe(new Vector(0f, 0f, 1f));
         }
+
+        [Fact]
+        public void Reflecting_Vector_Around_Normal()
+        {
+            new Vector(1, -1, 0).Reflect(new Vector(0, 1, 0))
+                .ShouldBe(new Vector(1, 1, 0));
+
+            new Vector(0, -1, 0).Reflect(new Vector(Math.Sqrt(2) / 2, Math.Sqrt(2) / 2, 0))
+                .ShouldBe(new Vector(1, 0, 0));
+        }
     }
 }
