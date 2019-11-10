@@ -5,9 +5,9 @@ namespace RayTracer.Common.Core
     public struct Intersection : IEquatable<Intersection>
     {
         public double Time { get; }
-        public object Object { get; }
+        public IRayTracedObject Object { get; }
 
-        public Intersection(double time, object o)
+        public Intersection(double time, IRayTracedObject o)
         {
             Time = time;
             Object = o;

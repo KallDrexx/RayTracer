@@ -37,9 +37,9 @@ namespace RayTracer.Common.Primitives
             return new Transform(_transformMatrices, Matrix4X4.CreateScale(x, y, z));
         }
 
-        public Transform Skew(double x, double y, double z)
+        public Transform Skew(double xToY, double xToZ, double yToX, double yToZ, double zToX, double zToY)
         {
-            return new Transform(_transformMatrices, Matrix4X4.CreateScale(x, y, z));
+            return new Transform(_transformMatrices, Matrix4X4.CreateSkew(xToY, xToZ, yToX, yToZ, zToX, zToY));
         }
 
         public Transform Translate(double x, double y, double z)

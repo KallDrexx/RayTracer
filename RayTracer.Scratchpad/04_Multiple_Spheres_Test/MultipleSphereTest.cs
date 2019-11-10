@@ -44,7 +44,7 @@ namespace RayTracer.Scratchpad._04_Multiple_Spheres_Test
             var pixelSize = wallSize / pixelCount;
 
             var pointX = (-wallSize / 2) + pixelSize * xIndex;
-            var pointY = (-wallSize / 2) + pixelSize * yIndex;
+            var pointY = (wallSize / 2) - pixelSize * yIndex;
             var point = new Point(pointX, pointY, wallDepth);
 
             return (point - rayOrigin).Normalize();

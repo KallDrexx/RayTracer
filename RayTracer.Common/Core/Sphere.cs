@@ -3,9 +3,10 @@ using RayTracer.Common.Primitives;
 
 namespace RayTracer.Common.Core
 {
-    public class Sphere
+    public class Sphere : IRayTracedObject
     {
         public Matrix4X4 Transform { get; set; }
+        public Material Material { get; set; } = new Material();
 
         public Sphere(Matrix4X4? transform = null)
         {
