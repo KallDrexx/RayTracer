@@ -22,7 +22,7 @@ namespace RayTracer.Scratchpad._05_Shaded_Sphere
             {
                 Material =
                 {
-                    Color = new Color(1, 0.2, 1),
+                    Color = new Color(1, 0, 0),
                     Specular = 0.9,
                     Ambient = 0.1,
                     Diffuse = 0.5,
@@ -30,7 +30,8 @@ namespace RayTracer.Scratchpad._05_Shaded_Sphere
                 }
             };
             
-            var light = new PointLight(new Point(-10, 10, -10), new Color(1, 1, 1));
+            var light1 = new PointLight(new Point(-10, 10, -10), new Color(1, 1, 1));
+            var light2 = new PointLight(new Point(10, -10, -10), new Color(1, 1, 1));
 
             for (var x = 0; x < canvasPixels; x++)
             for (var y = 0; y < canvasPixels; y++)
@@ -46,9 +47,10 @@ namespace RayTracer.Scratchpad._05_Shaded_Sphere
                     var hitPoint = ray.PositionAt(hit.Value.Time);
                     var normal = hit.Value.Object.NormalAt(hitPoint);
                     var eye = -rayDirection;
-                    var color = hit.Value.Object.Material.CalculateLighting(light, hitPoint, eye, normal);
+                    var color1 = hit.Value.Object.Material.CalculateLighting(light1, hitPoint, eye, normal);
+                    var color2 = hit.Value.Object.Material.CalculateLighting(light2, hitPoint, eye, normal);
 
-                    canvas[x, y] = color;
+                    canvas[x, y] = color1 + color2;
                 }
             }
 
