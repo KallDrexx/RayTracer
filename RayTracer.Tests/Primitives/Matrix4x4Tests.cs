@@ -408,5 +408,47 @@ namespace RayTracer.Tests.Primitives
             (Matrix4X4.CreateSkew(0, 0, 0, 0, 0, 1) * point)
                 .ShouldBe(new Point(2, 3, 7));
         }
+
+        [Fact]
+        public void View_Transform_For_Default_Orientation()
+        {
+            Matrix4X4.CreateViewTransform(new Point(0, 0, 0),
+                    new Point(0, 0, -1),
+                    new Vector(0, 1, 0))
+                .ShouldBe(Matrix4X4.IdentityMatrix);
+        }
+
+        [Fact]
+        public void View_Transform_Looking_In_Positive_Z_Position()
+        {
+            Matrix4X4.CreateViewTransform(new Point(0, 0, 0), 
+                new Point(0, 0, 1), 
+                new Vector(0, 1, 0))
+                .ShouldBe(Matrix4X4.CreateScale(-1, 1, -1));
+        }
+
+        [Fact]
+        public void View_Transform_Moves_The_World()
+        {
+            Matrix4X4.CreateViewTransform(new Point(0, 0, 8), 
+                new Point(0, 0, 0),
+                new Vector(0, 1, 0))
+                .ShouldBe(Matrix4X4.CreateTranslation(0, 0, -8));
+        }
+
+        [Fact]
+        public void View_Transform_With_Arbitrary_Values()
+        {
+            Matrix4X4.CreateViewTransform(new Point(1, 3, 2), 
+                new Point(4, -2, 8), 
+                new Vector(1, 1, 0))
+                .ShouldBe(new Matrix4X4
+                {
+                    M11 = -0.50709, M12 = 0.50709, M13 = 0.67612, M14 = -2.36643,
+                    M21 = 0.76772, M22 = 0.60609, M23 = 0.12122, M24 = -2.82843,
+                    M31 = -0.35857, M32 = 0.59761, M33 = -0.71714, M34 = 0,
+                    M41 = 0, M42 = 0, M43 = 0, M44 = 1,
+                });
+        }
     }
 }

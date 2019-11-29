@@ -81,6 +81,23 @@ namespace RayTracer.Common.Primitives
 
             return matrix;
         }
+
+        public static Matrix4X4 CreateViewTransform(Point from, Point to, Vector upDirection)
+        {
+            var forward = (to - from).Normalize();
+            var left = forward.Cross(upDirection.Normalize());
+            var trueUp = left.Cross(forward);
+
+            var orientation = new Matrix4X4
+            {
+                M11 = left.X, M12 = left.Y, M13 = left.Z, M14 = 0,
+                M21 = trueUp.X, M22 = trueUp.Y, M23 = trueUp.Z, M24 = 0,
+                M31 = -forward.X, M32 = -forward.Y, M33 = -forward.Z, M34 = 0,
+                M41 = 0, M42 = 0, M43 = 0, M44 = 1
+            };
+
+            return orientation * Matrix4X4.CreateTranslation(-from.X, -from.Y, -from.Z);
+        }
         
         public static bool operator ==(Matrix4X4 first, Matrix4X4 second)
         {
