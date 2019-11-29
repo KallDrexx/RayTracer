@@ -4,8 +4,8 @@ namespace RayTracer.Common.Core
 {
     public class PointLight
     {
-        public Point Position { get; }
-        public Color Intensity { get; }
+        public Point Position { get; set; }
+        public Color Intensity { get; set; }
 
         public PointLight(Point position, Color intensity)
         {

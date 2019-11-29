@@ -1,4 +1,5 @@
 using System;
+using RayTracer.Common.Primitives;
 
 namespace RayTracer.Common.Core
 {
@@ -11,6 +12,22 @@ namespace RayTracer.Common.Core
         {
             Time = time;
             Object = o;
+        }
+
+        public IntersectionPreComputation GetPreComputation(Ray intersectingRay)
+        {
+            var position = intersectingRay.PositionAt(Time);
+            var eyeVector = -intersectingRay.Direction;
+            var normalVector = Object.NormalAt(position);
+            var inside = false;
+
+            if (normalVector.Dot(eyeVector) < 0)
+            {
+                normalVector = -normalVector;
+                inside = true;
+            }
+
+            return new IntersectionPreComputation(Time, Object, position, eyeVector, normalVector, inside);
         }
 
         public override string ToString()

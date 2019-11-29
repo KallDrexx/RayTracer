@@ -27,5 +27,42 @@ namespace RayTracer.Tests.Core
             new Intersection(1, sphere1).ShouldNotBe(new Intersection(2, sphere1));
             new Intersection(1, sphere1).ShouldNotBe(new Intersection(1, sphere2));
         }
+
+        [Fact]
+        public void Pre_Compute_State_Of_An_Intersection()
+        {
+            var ray = new Ray(new Point(0, 0, -5), new Vector(0, 0, 1));
+            var sphere = new Sphere();
+            var intersection = new Intersection(4, sphere);
+
+            var preComputation = intersection.GetPreComputation(ray);
+            
+            preComputation.ShouldNotBeNull();
+            preComputation.Time.ShouldBe(4);
+            preComputation.Object.ShouldBe(sphere);
+            preComputation.Point.ShouldBe(new Point(0, 0, -1));
+            preComputation.EyeVector.ShouldBe(new Vector(0, 0, -1));
+            preComputation.NormalVector.ShouldBe(new Vector(0, 0, -1));
+            preComputation.IsInside.ShouldBeFalse();
+        }
+
+        [Fact]
+        public void Pre_Computation_Originating_Inside_Sphere()
+        {
+            var ray = new Ray(new Point(0, 0, 0), new Vector(0, 0, 1));
+            var sphere = new Sphere();
+            var intersection = new Intersection(1, sphere);
+
+            var preComputation = intersection.GetPreComputation(ray);
+            
+            preComputation.ShouldNotBeNull();
+            preComputation.Time.ShouldBe(1);
+            preComputation.Object.ShouldBe(sphere);
+            preComputation.Point.ShouldBe(new Point(0, 0, 1));
+            preComputation.EyeVector.ShouldBe(new Vector(0, 0, -1));
+            preComputation.NormalVector.ShouldBe(new Vector(0, 0, -1));
+            preComputation.IsInside.ShouldBeTrue();
+            
+        }
     }
 }
