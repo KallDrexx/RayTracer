@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using RayTracer.Common.Primitives;
 
 namespace RayTracer.Common.Core
@@ -50,14 +52,17 @@ namespace RayTracer.Common.Core
         public Canvas Render(World world)
         {
             var canvas = new Canvas(HorizontalPixelCount, VerticalPixelCount);
-            
-            for (var x = 0; x < HorizontalPixelCount; x++)
-            for (var y = 0; y < VerticalPixelCount; y++)
+
+            var allPixelCoordinates = Enumerable.Range(0, HorizontalPixelCount)
+                .Select(x => new {X = x})
+                .SelectMany(x => Enumerable.Range(0, VerticalPixelCount).Select(y => new {X = x.X, Y = y}));
+
+            Parallel.ForEach(allPixelCoordinates, pixels =>
             {
-                var ray = RayForPixel(x, y);
+                var ray = RayForPixel(pixels.X, pixels.Y);
                 var color = world.ColorAtIntersection(ray);
-                canvas[x, y] = color;
-            }
+                canvas[pixels.X, pixels.Y] = color;
+            });
 
             return canvas;
         }
