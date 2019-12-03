@@ -24,7 +24,7 @@ namespace RayTracer.Common.Core
 
             foreach (var pointLight in PointLights)
             {
-                var isInShadow = IsInShadow(preComputation.OverPoint);
+                var isInShadow = IsInShadow(preComputation.OverPoint, pointLight);
                 
                 color += preComputation.Object.Material.CalculateLighting(pointLight,
                     preComputation.Point,
@@ -49,20 +49,17 @@ namespace RayTracer.Common.Core
             return ShadePreComputation(preComputation);
         }
 
-        public bool IsInShadow(Point point)
+        public bool IsInShadow(Point point, PointLight light)
         {
-            foreach (var pointLight in PointLights)
+            var vectorToLight = light.Position - point;
+            var distance = vectorToLight.Magnitude;
+            var ray = new Ray(point, vectorToLight.Normalize());
+            foreach (var sphere in Spheres)
             {
-                var vectorToLight = pointLight.Position - point;
-                var distance = vectorToLight.Magnitude;
-                var ray = new Ray(point, vectorToLight.Normalize());
-                foreach (var sphere in Spheres)
+                var hit = ray.Intersects(sphere).GetHit();
+                if (hit != null && hit.Value.Time < distance)
                 {
-                    var hit = ray.Intersects(sphere).GetHit();
-                    if (hit != null && hit.Value.Time < distance)
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
 

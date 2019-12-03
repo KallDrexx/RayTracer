@@ -128,28 +128,28 @@ namespace RayTracer.Tests.Core
         public void Not_In_Shadow_When_Nothing_Is_Collinear_With_Point_And_Light()
         {
             var world = TestUtils.CreateTestWorld();
-            world.IsInShadow(new Point(0, 10, 0)).ShouldBeFalse();
+            world.IsInShadow(new Point(0, 10, 0), world.PointLights[0]).ShouldBeFalse();
         }
 
         [Fact]
         public void In_Shadow_When_Object_Between_Point_And_Light()
         {
             var world = TestUtils.CreateTestWorld();
-            world.IsInShadow(new Point(10, -10, 10)).ShouldBeTrue();
+            world.IsInShadow(new Point(10, -10, 10), world.PointLights[0]).ShouldBeTrue();
         }
 
         [Fact]
         public void Not_In_Shadow_When_Object_Behind_Light()
         {
             var world = TestUtils.CreateTestWorld();
-            world.IsInShadow(new Point(-20, 20, -20)).ShouldBeFalse();
+            world.IsInShadow(new Point(-20, 20, -20), world.PointLights[0]).ShouldBeFalse();
         }
 
         [Fact]
         public void Not_In_Shadow_When_Object_Behind_Point()
         {
             var world = TestUtils.CreateTestWorld();
-            world.IsInShadow(new Point(-2, 2, -2)).ShouldBeFalse();
+            world.IsInShadow(new Point(-2, 2, -2), world.PointLights[0]).ShouldBeFalse();
         }
 
         [Fact]

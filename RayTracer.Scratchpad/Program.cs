@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using RayTracer.Scratchpad._01_Primitive_Cannon;
 using RayTracer.Scratchpad._02_Clock;
 using RayTracer.Scratchpad._03_Single_Sphere;
 using RayTracer.Scratchpad._04_Multiple_Spheres_Test;
 using RayTracer.Scratchpad._05_Shaded_Sphere;
 using RayTracer.Scratchpad._06_Camera;
+using RayTracer.Scratchpad._07_CameraTestDualLights;
 using SkiaSharp;
 
 namespace RayTracer.Scratchpad
@@ -22,9 +24,10 @@ namespace RayTracer.Scratchpad
                 new MultipleSphereTest(),
                 new ShadedSphere(), 
                 new CameraTest(), 
+                new DualLightCameraTest(), 
             };
 
-            var exampleToChoose = examples[5];
+            var exampleToChoose = examples.Last();
 
             var stopwatch = Stopwatch.StartNew();
             var canvas = exampleToChoose.Run();

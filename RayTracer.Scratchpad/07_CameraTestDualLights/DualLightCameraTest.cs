@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using RayTracer.Common;
 using RayTracer.Common.Core;
 using RayTracer.Common.Primitives;
 
-namespace RayTracer.Scratchpad._06_Camera
+namespace RayTracer.Scratchpad._07_CameraTestDualLights
 {
-    public class CameraTest : IExampleRunner
+    public class DualLightCameraTest : IExampleRunner
     {
         public Canvas Run()
         {
@@ -87,12 +87,13 @@ namespace RayTracer.Scratchpad._06_Camera
                 }
             };
             
-            var light = new PointLight(new Point(-10, 10, -10), new Color(1, 1, 1));
+            var light1 = new PointLight(new Point(-10, 10, -10), new Color(0.5, 0.5, 0.5));
+            var light2 = new PointLight(new Point(10, 10, -10), new Color(0.5, 0.5, 0.5));
 
             return new World
             {
                 Spheres = {floor, rightWall, leftWall, middleSphere, rightSphere, leftSphere},
-                PointLights = {light},
+                PointLights = {light1, light2},
             };
         }
     }
