@@ -27,7 +27,9 @@ namespace RayTracer.Common.Core
                 inside = true;
             }
 
-            return new IntersectionPreComputation(Time, Object, position, eyeVector, normalVector, inside);
+            var overPoint = position + normalVector * 0.0001f;
+
+            return new IntersectionPreComputation(Time, Object, position, eyeVector, normalVector, inside, overPoint);
         }
 
         public override string ToString()

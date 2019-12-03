@@ -29,7 +29,7 @@ namespace RayTracer.Tests.Core
             var normalVector = new Vector(0, 0, -1);
             var light = new PointLight(new Point(0, 0, -10), new Color(1, 1, 1));
             
-            material.CalculateLighting(light, point, eyeVector, normalVector)
+            material.CalculateLighting(light, point, eyeVector, normalVector, false)
                 .ShouldBe(new Color(1.9, 1.9, 1.9));
         }
 
@@ -42,7 +42,7 @@ namespace RayTracer.Tests.Core
             var normalVector = new Vector(0, 0, -1);
             var light = new PointLight(new Point(0, 0, -10), new Color(1, 1, 1));
             
-            material.CalculateLighting(light, point, eyeVector, normalVector)
+            material.CalculateLighting(light, point, eyeVector, normalVector, false)
                 .ShouldBe(new Color(1, 1, 1));
         }
 
@@ -55,7 +55,7 @@ namespace RayTracer.Tests.Core
             var normalVector = new Vector(0, 0, -1);
             var light = new PointLight(new Point(0, 10, -10), new Color(1, 1, 1));
             
-            material.CalculateLighting(light, point, eyeVector, normalVector)
+            material.CalculateLighting(light, point, eyeVector, normalVector, false)
                 .ShouldBe(new Color(0.7364, 0.7364, 0.7364));
         }
 
@@ -68,7 +68,7 @@ namespace RayTracer.Tests.Core
             var normalVector = new Vector(0, 0, -1);
             var light = new PointLight(new Point(0, 10, -10), new Color(1, 1, 1));
             
-            material.CalculateLighting(light, point, eyeVector, normalVector)
+            material.CalculateLighting(light, point, eyeVector, normalVector, false)
                 .ShouldBe(new Color(1.6364, 1.6364, 1.6364));
         }
 
@@ -81,8 +81,21 @@ namespace RayTracer.Tests.Core
             var normalVector = new Vector(0, 0, -1);
             var light = new PointLight(new Point(0, 0, 10), new Color(1, 1, 1));
             
-            material.CalculateLighting(light, point, eyeVector, normalVector)
+            material.CalculateLighting(light, point, eyeVector, normalVector, false)
                 .ShouldBe(new Color(0.1, 0.1, 0.1));
+        }
+
+        [Fact]
+        public void Lighting_With_Surface_In_Shadow()
+        {
+            var material = new Material();
+            var point = new Point(0, 0, 0);
+            var eyeVector = new Vector(0, 0, -1);
+            var normalVector = new Vector(0, 0, -1);
+            var light = new PointLight(new Point(0, 0, -10), new Color(1, 1, 1));
+            
+            material.CalculateLighting(light, point, eyeVector, normalVector, true)
+                .ShouldBe(new Color(material.Ambient, material.Ambient, material.Ambient));
         }
     }
 }

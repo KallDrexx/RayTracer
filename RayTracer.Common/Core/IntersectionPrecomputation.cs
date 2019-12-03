@@ -10,13 +10,15 @@ namespace RayTracer.Common.Core
         public Vector EyeVector { get; }
         public Vector NormalVector { get; }
         public bool IsInside { get; }
+        public Point OverPoint { get; }
 
         public IntersectionPreComputation(double time, 
             IRayTracedObject obj, 
             Point point, 
             Vector eyeVector, 
             Vector normalVector, 
-            bool isInside)
+            bool isInside, 
+            Point overPoint)
         {
             Time = time;
             Object = obj;
@@ -24,6 +26,7 @@ namespace RayTracer.Common.Core
             EyeVector = eyeVector;
             NormalVector = normalVector;
             IsInside = isInside;
+            OverPoint = overPoint;
         }
     }
 }

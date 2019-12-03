@@ -87,12 +87,12 @@ namespace RayTracer.Scratchpad._06_Camera
                 }
             };
             
-            var light = new PointLight(new Point(-10, 10, -10), new Color(1, 1, 1));
+            var light1 = new PointLight(new Point(-10, 10, -10), new Color(1, 1, 1));
 
             return new World
             {
                 Spheres = {floor, rightWall, leftWall, middleSphere, rightSphere, leftSphere},
-                PointLights = {light},
+                PointLights = {light1},
             };
         }
     }

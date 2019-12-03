@@ -123,5 +123,54 @@ namespace RayTracer.Tests.Core
             
             color.ShouldBe(innerSphere.Material.Color);
         }
+
+        [Fact]
+        public void Not_In_Shadow_When_Nothing_Is_Collinear_With_Point_And_Light()
+        {
+            var world = World.CreateDefaultWorld();
+            world.IsInShadow(new Point(0, 10, 0)).ShouldBeFalse();
+        }
+
+        [Fact]
+        public void In_Shadow_When_Object_Between_Point_And_Light()
+        {
+            var world = World.CreateDefaultWorld();
+            world.IsInShadow(new Point(10, -10, 10)).ShouldBeTrue();
+        }
+
+        [Fact]
+        public void Not_In_Shadow_When_Object_Behind_Light()
+        {
+            var world = World.CreateDefaultWorld();
+            world.IsInShadow(new Point(-20, 20, -20)).ShouldBeFalse();
+        }
+
+        [Fact]
+        public void Not_In_Shadow_When_Object_Behind_Point()
+        {
+            var world = World.CreateDefaultWorld();
+            world.IsInShadow(new Point(-2, 2, -2)).ShouldBeFalse();
+        }
+
+        [Fact]
+        public void Shade_When_Given_Intersection_Is_In_Shadow()
+        {
+            var world = new World
+            {
+                PointLights = {new PointLight(new Point(0, 0, -10), new Color(1, 1, 1))},
+                Spheres =
+                {
+                    new Sphere(),
+                    new Sphere(Matrix4X4.CreateTranslation(0, 0, 10)),
+                }
+            };
+            
+            var ray = new Ray(new Point(0, 0, 5), new Vector(0, 0, 1));
+            var intersection = new Intersection(4, world.Spheres[1]);
+            var computation = intersection.GetPreComputation(ray);
+            var color = world.ShadePreComputation(computation);
+            
+            color.ShouldBe(new Color(0.1, 0.1, 0.1));
+        }
     }
 }

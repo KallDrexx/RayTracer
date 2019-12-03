@@ -62,7 +62,19 @@ namespace RayTracer.Tests.Core
             preComputation.EyeVector.ShouldBe(new Vector(0, 0, -1));
             preComputation.NormalVector.ShouldBe(new Vector(0, 0, -1));
             preComputation.IsInside.ShouldBeTrue();
+        }
+
+        [Fact]
+        public void Pre_Computation_Should_Offset_Point()
+        {
+            var ray = new Ray(new Point(0, 0, -5), new Vector(0, 0, 1));
+            var sphere = new Sphere(Matrix4X4.CreateTranslation(0, 0, 1));
+            var intersection = new Intersection(5, sphere);
+
+            var preComputation = intersection.GetPreComputation(ray);
             
+            preComputation.OverPoint.Z.ShouldBeLessThan(-0.0001f / 2);
+            preComputation.Point.Z.ShouldBeGreaterThan(preComputation.OverPoint.Z);
         }
     }
 }

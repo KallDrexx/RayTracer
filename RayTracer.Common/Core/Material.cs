@@ -23,7 +23,8 @@ namespace RayTracer.Common.Core
         public Color CalculateLighting(PointLight light, 
             Point pointBeingIlluminated, 
             Vector eyeVector,
-            Vector normalVector)
+            Vector normalVector,
+            bool inShadow)
         {
             var effectiveColor = Color * light.Intensity;
             var lightVector = (light.Position - pointBeingIlluminated).Normalize();
@@ -34,7 +35,7 @@ namespace RayTracer.Common.Core
             
             Color diffuseContribution;
             Color specularContribution;
-            if (lightDotNormal < 0)
+            if (inShadow || lightDotNormal < 0)
             {
                 // Light is on the other side of the surface
                 diffuseContribution = Color.Black;
