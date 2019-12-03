@@ -22,7 +22,7 @@ namespace RayTracer.Tests.Core
         [Fact]
         public void Default_World_Initial_Setup()
         {
-            var world = World.CreateDefaultWorld();
+            var world = TestUtils.CreateTestWorld();
             
             world.PointLights.Count.ShouldBe(1);
             world.PointLights[0].Intensity.ShouldBe(new Color(1, 1, 1));
@@ -46,7 +46,7 @@ namespace RayTracer.Tests.Core
         [Fact]
         public void Ray_World_Intersection()
         {
-            var world = World.CreateDefaultWorld();
+            var world = TestUtils.CreateTestWorld();
             var ray = new Ray(new Point(0, 0, -5), new Vector(0, 0, 1));
 
             var intersections = world.Intersections(ray);
@@ -62,7 +62,7 @@ namespace RayTracer.Tests.Core
         [Fact]
         public void Shading_Intersection_From_Outside()
         {
-            var world = World.CreateDefaultWorld();
+            var world = TestUtils.CreateTestWorld();
             var ray = new Ray(new Point(0, 0, -5), new Vector(0, 0, 1));
             var sphere = world.Spheres[0];
             var intersection = new Intersection(4, sphere);
@@ -75,7 +75,7 @@ namespace RayTracer.Tests.Core
         [Fact]
         public void Shading_Intersection_From_Inside()
         {
-            var world = World.CreateDefaultWorld();
+            var world = TestUtils.CreateTestWorld();
             world.PointLights[0].Position = new Point(0, 0.25, 0);
             world.PointLights[0].Intensity = new Color(1, 1, 1);
             
@@ -91,7 +91,7 @@ namespace RayTracer.Tests.Core
         [Fact]
         public void Color_When_Ray_Misses()
         {
-            var world = World.CreateDefaultWorld();
+            var world = TestUtils.CreateTestWorld();
             var ray = new Ray(new Point(0, 0, -5), new Vector(0, 1, 0));
             var color = world.ColorAtIntersection(ray);
             
@@ -101,7 +101,7 @@ namespace RayTracer.Tests.Core
         [Fact]
         public void Color_When_Ray_Hits()
         {
-            var world = World.CreateDefaultWorld();
+            var world = TestUtils.CreateTestWorld();
             var ray = new Ray(new Point(0, 0, -5), new Vector(0, 0, 1));
             var color = world.ColorAtIntersection(ray);
             
@@ -111,7 +111,7 @@ namespace RayTracer.Tests.Core
         [Fact]
         public void Color_With_Intersection_In_Between_Two_Spheres()
         {
-            var world = World.CreateDefaultWorld();
+            var world = TestUtils.CreateTestWorld();
             var outerSphere = world.Spheres[0];
             var innerSphere = world.Spheres[1];
             var ray = new Ray(new Point(0, 0, 0.75), new Vector(0, 0, -1));
@@ -127,28 +127,28 @@ namespace RayTracer.Tests.Core
         [Fact]
         public void Not_In_Shadow_When_Nothing_Is_Collinear_With_Point_And_Light()
         {
-            var world = World.CreateDefaultWorld();
+            var world = TestUtils.CreateTestWorld();
             world.IsInShadow(new Point(0, 10, 0)).ShouldBeFalse();
         }
 
         [Fact]
         public void In_Shadow_When_Object_Between_Point_And_Light()
         {
-            var world = World.CreateDefaultWorld();
+            var world = TestUtils.CreateTestWorld();
             world.IsInShadow(new Point(10, -10, 10)).ShouldBeTrue();
         }
 
         [Fact]
         public void Not_In_Shadow_When_Object_Behind_Light()
         {
-            var world = World.CreateDefaultWorld();
+            var world = TestUtils.CreateTestWorld();
             world.IsInShadow(new Point(-20, 20, -20)).ShouldBeFalse();
         }
 
         [Fact]
         public void Not_In_Shadow_When_Object_Behind_Point()
         {
-            var world = World.CreateDefaultWorld();
+            var world = TestUtils.CreateTestWorld();
             world.IsInShadow(new Point(-2, 2, -2)).ShouldBeFalse();
         }
 

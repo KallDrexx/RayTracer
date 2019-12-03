@@ -72,7 +72,7 @@ namespace RayTracer.Tests.Core
         [Fact]
         public void Render_World_Within_Camera()
         {
-            var world = World.CreateDefaultWorld();
+            var world = TestUtils.CreateTestWorld();
             var from = new Point(0, 0, -5);
             var to = new Point(0, 0, 0);
             var up = new Vector(0, 1, 0);
