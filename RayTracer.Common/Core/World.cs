@@ -8,11 +8,11 @@ namespace RayTracer.Common.Core
     public class World
     {
         public List<PointLight> PointLights { get; } = new List<PointLight>();
-        public List<Sphere> Spheres { get; } = new List<Sphere>();
+        public List<RayTraceableObject> Objects { get; } = new List<RayTraceableObject>();
 
         public IntersectionCollection Intersections(Ray ray)
         {
-            var intersections = Spheres.SelectMany(x => x.GetIntersections(ray))
+            var intersections = Objects.SelectMany(x => x.GetIntersections(ray))
                 .OrderBy(x => x.Time)
                 .ToArray();
             
@@ -55,7 +55,7 @@ namespace RayTracer.Common.Core
             var vectorToLight = light.Position - point;
             var distance = vectorToLight.Magnitude;
             var ray = new Ray(point, vectorToLight.Normalize());
-            foreach (var sphere in Spheres)
+            foreach (var sphere in Objects)
             {
                 var hit = sphere.GetIntersections(ray).GetHit();
                 if (hit != null && hit.Value.Time < distance)

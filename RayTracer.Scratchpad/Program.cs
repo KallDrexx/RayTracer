@@ -8,6 +8,7 @@ using RayTracer.Scratchpad._04_Multiple_Spheres_Test;
 using RayTracer.Scratchpad._05_Shaded_Sphere;
 using RayTracer.Scratchpad._06_Camera;
 using RayTracer.Scratchpad._07_CameraTestDualLights;
+using RayTracer.Scratchpad._08_Plane;
 using SkiaSharp;
 
 namespace RayTracer.Scratchpad
@@ -24,7 +25,8 @@ namespace RayTracer.Scratchpad
                 new MultipleSphereTest(),
                 new ShadedSphere(), 
                 new CameraTest(), 
-                new DualLightCameraTest(), 
+                new DualLightCameraTest(),
+                new PlaneExample(),
             };
 
             var exampleToChoose = examples.Last();

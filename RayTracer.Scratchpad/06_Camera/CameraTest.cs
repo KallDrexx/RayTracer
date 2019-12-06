@@ -92,7 +92,7 @@ namespace RayTracer.Scratchpad._06_Camera
 
             return new World
             {
-                Spheres = {floor, rightWall, leftWall, middleSphere, rightSphere, leftSphere},
+                Objects = {floor, rightWall, leftWall, middleSphere, rightSphere, leftSphere},
                 PointLights = {light},
             };
         }

@@ -1,12 +1,12 @@
-using System;
+﻿using System;
 using RayTracer.Common;
 using RayTracer.Common.Core;
 using RayTracer.Common.Core.Objects;
 using RayTracer.Common.Primitives;
 
-namespace RayTracer.Scratchpad._07_CameraTestDualLights
+namespace RayTracer.Scratchpad._08_Plane
 {
-    public class DualLightCameraTest : IExampleRunner
+    public class PlaneExample : IExampleRunner
     {
         public Canvas Run()
         {
@@ -23,7 +23,7 @@ namespace RayTracer.Scratchpad._07_CameraTestDualLights
 
         private static World CreateWorld()
         {
-            var floor = new Sphere(Matrix4X4.CreateScale(10, 0.01, 10))
+            var floor = new Plane
             {
                 Material = new Material
                 {
@@ -32,26 +32,16 @@ namespace RayTracer.Scratchpad._07_CameraTestDualLights
                 }
             };
 
-            var leftWall = new Sphere(Matrix4X4.CreateTranslation(0, 0, 5) *
-                                      Matrix4X4.CreateRotationY(-Math.PI / 4) *
-                                      Matrix4X4.CreateRotationX(Math.PI / 2) *
-                                      Matrix4X4.CreateScale(10, 0.01, 10))
+            var backWall = new Plane
             {
+                TransformMatrix = new Transform().RotateX(Math.PI / 2)
+                    .RotateY(-Math.PI / 2)
+                    .Translate(1.5, 0, 0)
+                    .GetTransformationMatrix(),
+                
                 Material = new Material
                 {
-                    Color = new Color(1, 0.9, 0.9),
-                    Specular = 0,
-                }
-            };
-
-            var rightWall = new Sphere(Matrix4X4.CreateTranslation(0, 0, 5) *
-                                       Matrix4X4.CreateRotationY(Math.PI / 4) *
-                                       Matrix4X4.CreateRotationX(Math.PI / 2) *
-                                       Matrix4X4.CreateScale(10, 0.01, 10))
-            {
-                Material = new Material
-                {
-                    Color = new Color(1, 0.9, 0.9),
+                    Color = new Color(0, 0.5, 0.5),
                     Specular = 0,
                 }
             };
@@ -88,13 +78,12 @@ namespace RayTracer.Scratchpad._07_CameraTestDualLights
                 }
             };
             
-            var light1 = new PointLight(new Point(-10, 10, -10), new Color(0.5, 0.5, 0.5));
-            var light2 = new PointLight(new Point(10, 10, -10), new Color(0.5, 0.5, 0.5));
+            var light = new PointLight(new Point(-10, 10, -10), new Color(1, 1, 1));
 
             return new World
             {
-                Objects = {floor, rightWall, leftWall, middleSphere, rightSphere, leftSphere},
-                PointLights = {light1, light2},
+                Objects = {middleSphere, rightSphere, leftSphere, floor, backWall},
+                PointLights = {light},
             };
         }
     }

@@ -16,7 +16,7 @@ namespace RayTracer.Tests.Core
         {
             var world = new World();
             
-            world.Spheres.ShouldBeEmpty();
+            world.Objects.ShouldBeEmpty();
             world.PointLights.ShouldBeEmpty();
         }
 
@@ -29,15 +29,15 @@ namespace RayTracer.Tests.Core
             world.PointLights[0].Intensity.ShouldBe(new Color(1, 1, 1));
             world.PointLights[0].Position.ShouldBe(new Point(-10, 10, -10));
             
-            world.Spheres.Count.ShouldBe(2);
-            world.Spheres.Any(x => x.Material.Color == new Color(0.8, 1, 0.6) &&
+            world.Objects.Count.ShouldBe(2);
+            world.Objects.Any(x => x.Material.Color == new Color(0.8, 1, 0.6) &&
                                    Math.Abs(x.Material.Diffuse - 0.7) < 0.0001f &&
                                    Math.Abs(x.Material.Specular - 0.2) < 0.0001f &&
                                    x.TransformMatrix.Equals(Matrix4X4.IdentityMatrix))
                 .ShouldBeTrue();
             
             var defaultMaterial = new Material();
-            world.Spheres.Any(x => x.Material.Color.Equals(defaultMaterial.Color) &&
+            world.Objects.Any(x => x.Material.Color.Equals(defaultMaterial.Color) &&
                                    Math.Abs(x.Material.Diffuse - defaultMaterial.Diffuse) < 0.0001f &&
                                    Math.Abs(x.Material.Specular - defaultMaterial.Specular) < 0.0001f &&
                                    x.TransformMatrix.Equals(Matrix4X4.CreateScale(0.5, 0.5, 0.5)))
@@ -65,7 +65,7 @@ namespace RayTracer.Tests.Core
         {
             var world = TestUtils.CreateTestWorld();
             var ray = new Ray(new Point(0, 0, -5), new Vector(0, 0, 1));
-            var sphere = world.Spheres[0];
+            var sphere = world.Objects[0];
             var intersection = new Intersection(4, sphere);
             var computation = intersection.GetPreComputation(ray);
             var color = world.ShadePreComputation(computation);
@@ -81,7 +81,7 @@ namespace RayTracer.Tests.Core
             world.PointLights[0].Intensity = new Color(1, 1, 1);
             
             var ray = new Ray(new Point(0, 0, 0), new Vector(0, 0, 1));
-            var sphere = world.Spheres[1];
+            var sphere = world.Objects[1];
             var intersection = new Intersection(0.5, sphere);
             var computation = intersection.GetPreComputation(ray);
             var color = world.ShadePreComputation(computation);
@@ -113,8 +113,8 @@ namespace RayTracer.Tests.Core
         public void Color_With_Intersection_In_Between_Two_Spheres()
         {
             var world = TestUtils.CreateTestWorld();
-            var outerSphere = world.Spheres[0];
-            var innerSphere = world.Spheres[1];
+            var outerSphere = world.Objects[0];
+            var innerSphere = world.Objects[1];
             var ray = new Ray(new Point(0, 0, 0.75), new Vector(0, 0, -1));
 
             outerSphere.Material.Ambient = 1;
@@ -159,7 +159,7 @@ namespace RayTracer.Tests.Core
             var world = new World
             {
                 PointLights = {new PointLight(new Point(0, 0, -10), new Color(1, 1, 1))},
-                Spheres =
+                Objects =
                 {
                     new Sphere(),
                     new Sphere(Matrix4X4.CreateTranslation(0, 0, 10)),
@@ -167,7 +167,7 @@ namespace RayTracer.Tests.Core
             };
             
             var ray = new Ray(new Point(0, 0, 5), new Vector(0, 0, 1));
-            var intersection = new Intersection(4, world.Spheres[1]);
+            var intersection = new Intersection(4, world.Objects[1]);
             var computation = intersection.GetPreComputation(ray);
             var color = world.ShadePreComputation(computation);
             

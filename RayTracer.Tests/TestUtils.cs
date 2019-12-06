@@ -11,7 +11,7 @@ namespace RayTracer.Tests
             return new World
             {
                 PointLights = {new PointLight(new Point(-10, 10, -10), new Color(1, 1, 1))},
-                Spheres =
+                Objects =
                 {
                     new Sphere
                     {
