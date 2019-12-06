@@ -13,7 +13,7 @@ namespace RayTracer.Tests.Core
         {
             var sphere = new Sphere();
             
-            sphere.Transform.ShouldBe(Matrix4X4.IdentityMatrix);
+            sphere.TransformMatrix.ShouldBe(Matrix4X4.IdentityMatrix);
         }
 
         [Fact]
@@ -22,9 +22,9 @@ namespace RayTracer.Tests.Core
             var sphere = new Sphere();
             var transform = Matrix4X4.CreateTranslation(1, 2, 3);
 
-            sphere.Transform = transform;
+            sphere.TransformMatrix = transform;
             
-            sphere.Transform.ShouldBe(transform);
+            sphere.TransformMatrix.ShouldBe(transform);
         }
 
         [Fact]

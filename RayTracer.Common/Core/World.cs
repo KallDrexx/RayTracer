@@ -11,7 +11,7 @@ namespace RayTracer.Common.Core
 
         public IntersectionCollection Intersections(Ray ray)
         {
-            var intersections = Spheres.SelectMany(ray.Intersects)
+            var intersections = Spheres.SelectMany(x => x.GetIntersections(ray))
                 .OrderBy(x => x.Time)
                 .ToArray();
             
@@ -56,7 +56,7 @@ namespace RayTracer.Common.Core
             var ray = new Ray(point, vectorToLight.Normalize());
             foreach (var sphere in Spheres)
             {
-                var hit = ray.Intersects(sphere).GetHit();
+                var hit = sphere.GetIntersections(ray).GetHit();
                 if (hit != null && hit.Value.Time < distance)
                 {
                     return true;

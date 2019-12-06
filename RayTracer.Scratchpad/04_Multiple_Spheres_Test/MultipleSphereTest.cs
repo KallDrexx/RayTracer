@@ -25,7 +25,7 @@ namespace RayTracer.Scratchpad._04_Multiple_Spheres_Test
                 
                 foreach (var sphere in spheres)
                 {
-                    var intersections = ray.Intersects(sphere);
+                    var intersections = sphere.GetIntersections(ray);
                     if (intersections.GetHit().HasValue)
                     {
                         canvas[x, y] = new Color(1, 0, 0);

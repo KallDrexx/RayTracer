@@ -37,7 +37,7 @@ namespace RayTracer.Tests.Core
             var sphere = new Sphere();
             var ray = new Ray(new Point(0, 0, -5), new Vector(0, 0, 1));
 
-            var intersections = ray.Intersects(sphere);
+            var intersections = sphere.GetIntersections(ray);
             
             intersections.Count.ShouldBe(2);
             intersections.ShouldContain(new Intersection(4, sphere));
@@ -50,7 +50,7 @@ namespace RayTracer.Tests.Core
             var sphere = new Sphere();
             var ray = new Ray(new Point(0, 1, -5), new Vector(0, 0, 1));
 
-            var intersections = ray.Intersects(sphere);
+            var intersections = sphere.GetIntersections(ray);
             
             intersections.Count.ShouldBe(2);
             intersections.ShouldContain(new Intersection(5, sphere));
@@ -63,7 +63,7 @@ namespace RayTracer.Tests.Core
             var sphere = new Sphere();
             var ray = new Ray(new Point(0, 2, -5), new Vector(0, 0, 1));
 
-            var intersections = ray.Intersects(sphere);
+            var intersections = sphere.GetIntersections(ray);
             
             intersections.Count.ShouldBe(0);
         }
@@ -74,7 +74,7 @@ namespace RayTracer.Tests.Core
             var sphere = new Sphere();
             var ray = new Ray(new Point(0, 0, 0), new Vector(0, 0, 1));
             
-            var intersections = ray.Intersects(sphere);
+            var intersections = sphere.GetIntersections(ray);
             
             intersections.Count.ShouldBe(2);
             intersections.ShouldContain(new Intersection(-1, sphere));
@@ -87,32 +87,11 @@ namespace RayTracer.Tests.Core
             var sphere = new Sphere();
             var ray = new Ray(new Point(0, 0, 5), new Vector(0, 0, 1));
             
-            var intersections = ray.Intersects(sphere);
+            var intersections = sphere.GetIntersections(ray);
             
             intersections.Count.ShouldBe(2);
             intersections.ShouldContain(new Intersection(-6, sphere));
             intersections.ShouldContain(new Intersection(-4, sphere));
-        }
-
-        [Fact]
-        public void Can_Transform_Ray()
-        {
-            var original = new Ray(new Point(1, 2, 3), new Vector(0, 1, 0));
-            var translation = Matrix4X4.CreateTranslation(3, 4, 5);
-            var scaling = Matrix4X4.CreateScale(2, 3, 4);
-            
-            original.Transform(translation).ShouldBe(new Ray(new Point(4, 6, 8), new Vector(0, 1, 0)));
-            original.Transform(scaling).ShouldBe(new Ray(new Point(2, 6, 12), new Vector(0, 3, 0)));
-        }
-
-        [Fact]
-        public void Transformed_Ray_Does_Not_Modify_Original_Ray()
-        {
-            var original = new Ray(new Point(1, 2, 3), new Vector(0, 1, 0));
-            var translation = Matrix4X4.CreateTranslation(3, 4, 5);
-            var newRay = original.Transform(translation);
-            
-            original.ShouldNotBe(newRay);
         }
 
         [Fact]
@@ -121,7 +100,7 @@ namespace RayTracer.Tests.Core
             var ray = new Ray(new Point(0, 0, -5), new Vector(0, 0, 1));
             var sphere = new Sphere(Matrix4X4.CreateScale(2, 2, 2));
 
-            var intersections = ray.Intersects(sphere);
+            var intersections = sphere.GetIntersections(ray);
             
             intersections.Count.ShouldBe(2);
             intersections.ShouldContain(new Intersection(3, sphere));
@@ -134,7 +113,7 @@ namespace RayTracer.Tests.Core
             var ray = new Ray(new Point(0, 0, -5), new Vector(0, 0, 1));
             var sphere = new Sphere(Matrix4X4.CreateTranslation(5, 0, 0));
 
-            var intersections = ray.Intersects(sphere);
+            var intersections = sphere.GetIntersections(ray);
             
             intersections.Count.ShouldBe(0);
         }

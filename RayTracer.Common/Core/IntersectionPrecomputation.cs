@@ -5,7 +5,7 @@ namespace RayTracer.Common.Core
     public class IntersectionPreComputation
     {
         public double Time { get; }
-        public IRayTracedObject Object { get; }
+        public RayTraceableObject Object { get; }
         public Point Point { get; }
         public Vector EyeVector { get; }
         public Vector NormalVector { get; }
@@ -13,7 +13,7 @@ namespace RayTracer.Common.Core
         public Point OverPoint { get; }
 
         public IntersectionPreComputation(double time, 
-            IRayTracedObject obj, 
+            RayTraceableObject obj, 
             Point point, 
             Vector eyeVector, 
             Vector normalVector, 

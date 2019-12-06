@@ -39,7 +39,7 @@ namespace RayTracer.Scratchpad._05_Shaded_Sphere
                 var rayDirection = GetRayDirection(rayOrigin, canvasPixels, x, y);
                 var ray = new Ray(rayOrigin, rayDirection);
 
-                var intersections = ray.Intersects(sphere);
+                var intersections = sphere.GetIntersections(ray);
                 var hit = intersections.GetHit();
 
                 if (hit.HasValue)

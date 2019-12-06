@@ -32,14 +32,14 @@ namespace RayTracer.Tests.Core
             world.Spheres.Any(x => x.Material.Color == new Color(0.8, 1, 0.6) &&
                                    Math.Abs(x.Material.Diffuse - 0.7) < 0.0001f &&
                                    Math.Abs(x.Material.Specular - 0.2) < 0.0001f &&
-                                   x.Transform.Equals(Matrix4X4.IdentityMatrix))
+                                   x.TransformMatrix.Equals(Matrix4X4.IdentityMatrix))
                 .ShouldBeTrue();
             
             var defaultMaterial = new Material();
             world.Spheres.Any(x => x.Material.Color.Equals(defaultMaterial.Color) &&
                                    Math.Abs(x.Material.Diffuse - defaultMaterial.Diffuse) < 0.0001f &&
                                    Math.Abs(x.Material.Specular - defaultMaterial.Specular) < 0.0001f &&
-                                   x.Transform.Equals(Matrix4X4.CreateScale(0.5, 0.5, 0.5)))
+                                   x.TransformMatrix.Equals(Matrix4X4.CreateScale(0.5, 0.5, 0.5)))
                 .ShouldBeTrue();
         }
 
