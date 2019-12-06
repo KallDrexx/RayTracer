@@ -1,4 +1,5 @@
-﻿using RayTracer.Common.Primitives;
+﻿using RayTracer.Common.Core.Objects;
+using RayTracer.Common.Primitives;
 
 namespace RayTracer.Common.Core
 {

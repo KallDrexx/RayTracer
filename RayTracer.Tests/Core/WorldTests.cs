@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using RayTracer.Common.Core;
+using RayTracer.Common.Core.Objects;
 using RayTracer.Common.Primitives;
 using Shouldly;
 using Xunit;

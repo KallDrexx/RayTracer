@@ -1,7 +1,7 @@
 using System;
 using RayTracer.Common.Primitives;
 
-namespace RayTracer.Common.Core
+namespace RayTracer.Common.Core.Objects
 {
     public class Sphere : RayTraceableObject
     {
@@ -10,21 +10,14 @@ namespace RayTracer.Common.Core
             TransformMatrix = transform ?? Matrix4X4.IdentityMatrix;
         }
 
-        public override Vector NormalAt(Point point)
-        {
-            var objectPoint = TransformToObjectSpace(point);
-            var objectNormal = objectPoint - new Point(0, 0, 0);
-            var worldNormal = NormalToWorldSpace(objectNormal);
-            return worldNormal.Normalize();
-        }
+        protected override Vector LocalNormalAt(Point objectPoint)
+            => objectPoint - new Point(0, 0, 0);
 
-        public override IntersectionCollection GetIntersections(Ray ray)
+        protected override IntersectionCollection GetLocalIntersections(Ray objectSpaceRay)
         {
-            var transformedRay = TransformToObjectSpace(ray);
-            
-            var distance = transformedRay.Origin - new Point(0, 0, 0);
-            var a = transformedRay.Direction.Dot(transformedRay.Direction);
-            var b = 2 * transformedRay.Direction.Dot(distance);
+            var distance = objectSpaceRay.Origin - new Point(0, 0, 0);
+            var a = objectSpaceRay.Direction.Dot(objectSpaceRay.Direction);
+            var b = 2 * objectSpaceRay.Direction.Dot(distance);
             var c = distance.Dot(distance) - 1;
 
             var discriminant = Math.Pow(b, 2) - 4 * a * c;

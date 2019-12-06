@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using RayTracer.Common.Core.Objects;
 using RayTracer.Common.Primitives;
 
 namespace RayTracer.Common.Core

@@ -1,6 +1,7 @@
 using System;
 using RayTracer.Common;
 using RayTracer.Common.Core;
+using RayTracer.Common.Core.Objects;
 using RayTracer.Common.Primitives;
 
 namespace RayTracer.Scratchpad._07_CameraTestDualLights

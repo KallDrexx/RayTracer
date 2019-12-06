@@ -1,5 +1,6 @@
 using RayTracer.Common;
 using RayTracer.Common.Core;
+using RayTracer.Common.Core.Objects;
 using RayTracer.Common.Primitives;
 
 namespace RayTracer.Scratchpad._03_Single_Sphere

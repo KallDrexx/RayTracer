@@ -1,4 +1,5 @@
 using RayTracer.Common.Core;
+using RayTracer.Common.Core.Objects;
 using Shouldly;
 using Xunit;
 
