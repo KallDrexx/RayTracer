@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using RayTracer.Scratchpad._01_Primitive_Cannon;
 using RayTracer.Scratchpad._02_Clock;
@@ -11,6 +12,7 @@ using RayTracer.Scratchpad._07_CameraTestDualLights;
 using RayTracer.Scratchpad._08_Plane;
 using RayTracer.Scratchpad._09_Patterns;
 using SkiaSharp;
+using Environment = System.Environment;
 
 namespace RayTracer.Scratchpad
 {
@@ -30,18 +32,22 @@ namespace RayTracer.Scratchpad
                 new PlaneExample(),
                 new PatternExample(), 
             };
-
-            var exampleToChoose = examples.Last();
-
-            var stopwatch = Stopwatch.StartNew();
-            var canvas = exampleToChoose.Run();
-            stopwatch.Stop();
-
-            using var file = new SKFileWStream(@"c:\temp\test.png");
-            using var bitmap = canvas.RenderToBitmap();
-            SKPixmap.Encode(file, bitmap, SKEncodedImageFormat.Png, 100);
             
-            Console.WriteLine($"Canvas rendered in {stopwatch.ElapsedMilliseconds:N}ms");
+            var outputDirectory = Path.Combine(new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.Parent.Parent.ToString(), "Examples");
+            
+            for (var x = 0; x < examples.Length; x++)
+            {
+                var filename = Path.Combine(outputDirectory, $"{x:00}_{examples[x].GetType().Name}.png");
+                var stopwatch = Stopwatch.StartNew();
+                var canvas = examples[x].Run();
+                stopwatch.Stop();
+                
+                using var file = new SKFileWStream(filename);
+                using var bitmap = canvas.RenderToBitmap();
+                SKPixmap.Encode(file, bitmap, SKEncodedImageFormat.Png, 100);
+                
+                Console.WriteLine($"Canvas rendered in {stopwatch.ElapsedMilliseconds:N}ms");
+            }
         }
     }
 }
