@@ -1,4 +1,6 @@
 using System;
+using RayTracer.Common.Core.Objects;
+using RayTracer.Common.Core.Patterns;
 using RayTracer.Common.Primitives;
 
 namespace RayTracer.Common.Core
@@ -10,6 +12,7 @@ namespace RayTracer.Common.Core
         public double Diffuse { get; set; }
         public double Specular { get; set; }
         public double Shininess { get; set; }
+        public Pattern Pattern { get; set; }
 
         public Material()
         {
@@ -24,9 +27,11 @@ namespace RayTracer.Common.Core
             Point pointBeingIlluminated, 
             Vector eyeVector,
             Vector normalVector,
-            bool inShadow)
+            bool inShadow,
+            RayTraceableObject objectBeingDrawn)
         {
-            var effectiveColor = Color * light.Intensity;
+            var materialColor = Pattern?.ColorAt(pointBeingIlluminated, objectBeingDrawn) ?? Color;
+            var effectiveColor = materialColor * light.Intensity;
             var lightVector = (light.Position - pointBeingIlluminated).Normalize();
             var ambientContribution = effectiveColor * Ambient;
             

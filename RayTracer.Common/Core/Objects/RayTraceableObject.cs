@@ -5,10 +5,11 @@ namespace RayTracer.Common.Core.Objects
 {
     public abstract class RayTraceableObject
     {
-        private Matrix4X4 _transformMatrix, _inverseTransform;
+        private Matrix4X4 _transformMatrix;
         
         public Material Material { get; set; }
 
+        public Matrix4X4 InverseTransform { get; private set; }
         public Matrix4X4 TransformMatrix
         {
             get => _transformMatrix;
@@ -21,7 +22,7 @@ namespace RayTracer.Common.Core.Objects
                     throw new InvalidOperationException("Object had a transform that can not be inverted");
                 }
 
-                _inverseTransform = inverse;
+                InverseTransform = inverse;
             }
         }
 
@@ -33,15 +34,15 @@ namespace RayTracer.Common.Core.Objects
 
         public IntersectionCollection GetIntersections(Ray ray)
         {
-            var objectSpaceRay = new Ray(_inverseTransform * ray.Origin, _inverseTransform * ray.Direction);
+            var objectSpaceRay = new Ray(InverseTransform * ray.Origin, InverseTransform * ray.Direction);
             return GetLocalIntersections(objectSpaceRay);
         }
         
         public Vector NormalAt(Point point)
         {
-            var objectPoint = _inverseTransform * point;
+            var objectPoint = InverseTransform * point;
             var objectNormal = LocalNormalAt(objectPoint);
-            var worldNormal = _inverseTransform.Transpose() * objectNormal;
+            var worldNormal = InverseTransform.Transpose() * objectNormal;
 
             return worldNormal.Normalize();
         }

@@ -31,7 +31,8 @@ namespace RayTracer.Common.Core
                     preComputation.Point,
                     preComputation.EyeVector,
                     preComputation.NormalVector,
-                    isInShadow);
+                    isInShadow,
+                    preComputation.Object);
             }
 
             return color;

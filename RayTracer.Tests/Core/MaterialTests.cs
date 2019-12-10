@@ -1,5 +1,7 @@
 using System;
 using RayTracer.Common.Core;
+using RayTracer.Common.Core.Objects;
+using RayTracer.Common.Core.Patterns;
 using RayTracer.Common.Primitives;
 using Shouldly;
 using Xunit;
@@ -29,7 +31,7 @@ namespace RayTracer.Tests.Core
             var normalVector = new Vector(0, 0, -1);
             var light = new PointLight(new Point(0, 0, -10), new Color(1, 1, 1));
             
-            material.CalculateLighting(light, point, eyeVector, normalVector, false)
+            material.CalculateLighting(light, point, eyeVector, normalVector, false, new Sphere())
                 .ShouldBe(new Color(1.9, 1.9, 1.9));
         }
 
@@ -42,7 +44,7 @@ namespace RayTracer.Tests.Core
             var normalVector = new Vector(0, 0, -1);
             var light = new PointLight(new Point(0, 0, -10), new Color(1, 1, 1));
             
-            material.CalculateLighting(light, point, eyeVector, normalVector, false)
+            material.CalculateLighting(light, point, eyeVector, normalVector, false, new Sphere())
                 .ShouldBe(new Color(1, 1, 1));
         }
 
@@ -55,7 +57,7 @@ namespace RayTracer.Tests.Core
             var normalVector = new Vector(0, 0, -1);
             var light = new PointLight(new Point(0, 10, -10), new Color(1, 1, 1));
             
-            material.CalculateLighting(light, point, eyeVector, normalVector, false)
+            material.CalculateLighting(light, point, eyeVector, normalVector, false, new Sphere())
                 .ShouldBe(new Color(0.7364, 0.7364, 0.7364));
         }
 
@@ -68,7 +70,7 @@ namespace RayTracer.Tests.Core
             var normalVector = new Vector(0, 0, -1);
             var light = new PointLight(new Point(0, 10, -10), new Color(1, 1, 1));
             
-            material.CalculateLighting(light, point, eyeVector, normalVector, false)
+            material.CalculateLighting(light, point, eyeVector, normalVector, false, new Sphere())
                 .ShouldBe(new Color(1.6364, 1.6364, 1.6364));
         }
 
@@ -81,7 +83,7 @@ namespace RayTracer.Tests.Core
             var normalVector = new Vector(0, 0, -1);
             var light = new PointLight(new Point(0, 0, 10), new Color(1, 1, 1));
             
-            material.CalculateLighting(light, point, eyeVector, normalVector, false)
+            material.CalculateLighting(light, point, eyeVector, normalVector, false, new Sphere())
                 .ShouldBe(new Color(0.1, 0.1, 0.1));
         }
 
@@ -94,8 +96,30 @@ namespace RayTracer.Tests.Core
             var normalVector = new Vector(0, 0, -1);
             var light = new PointLight(new Point(0, 0, -10), new Color(1, 1, 1));
             
-            material.CalculateLighting(light, point, eyeVector, normalVector, true)
+            material.CalculateLighting(light, point, eyeVector, normalVector, true, new Sphere())
                 .ShouldBe(new Color(material.Ambient, material.Ambient, material.Ambient));
+        }
+
+        [Fact]
+        public void Lighting_With_Pattern_Applied()
+        {
+            var material = new Material
+            {
+                Pattern = new StripePattern(new Color(1, 1, 1), new Color(0, 0, 0)),
+                Ambient = 1,
+                Diffuse = 0,
+                Specular = 0,
+            };
+            
+            var eyeVector = new Vector(0, 0, -1);
+            var normalVector = new Vector(0, 0, -1);
+            var light = new PointLight(new Point(0, 0, -10), new Color(1, 1, 1));
+            
+            material.CalculateLighting(light, new Point(0.9, 0, 0), eyeVector, normalVector, false, new Sphere())
+                .ShouldBe(new Color(1, 1, 1));
+            
+            material.CalculateLighting(light, new Point(1.1, 0, 0), eyeVector, normalVector, false, new Sphere())
+                .ShouldBe(new Color(0, 0, 0));
         }
     }
 }

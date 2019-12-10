@@ -48,7 +48,7 @@ namespace RayTracer.Scratchpad._05_Shaded_Sphere
                     var hitPoint = ray.PositionAt(hit.Value.Time);
                     var normal = hit.Value.Object.NormalAt(hitPoint);
                     var eye = -rayDirection;
-                    var color1 = hit.Value.Object.Material.CalculateLighting(light1, hitPoint, eye, normal, false);
+                    var color1 = hit.Value.Object.Material.CalculateLighting(light1, hitPoint, eye, normal, false, hit.Value.Object);
                     var color2 = Color.Black; //hit.Value.Object.Material.CalculateLighting(light2, hitPoint, eye, normal);
 
                     canvas[x, y] = color1 + color2;
