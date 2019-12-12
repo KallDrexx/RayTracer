@@ -43,7 +43,10 @@ namespace RayTracer.Scratchpad._09_Patterns
                 
                 Material = new Material
                 {
-                    Color = new Color(0, 0.5, 0.5),
+                    Pattern = new StripePattern(new Color(0, 0.5, 0.5), new Color(1, 0, 0))
+                    {
+                        TransformMatrix = Matrix4X4.CreateRotationY(Math.PI / 4)
+                    },
                     Specular = 0,
                 }
             };
@@ -74,7 +77,10 @@ namespace RayTracer.Scratchpad._09_Patterns
             {
                 Material = new Material
                 {
-                    Color = new Color(1, 0.8, 0.1),
+                    Pattern = new StripePattern(new Color(0, 0, 1), new Color(0, 1, 0))
+                    {
+                        TransformMatrix = Matrix4X4.CreateScale(0.25, 0.25, 0.25)
+                    },
                     Diffuse = 0.7,
                     Specular = 0.3,
                 }
