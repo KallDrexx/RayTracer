@@ -34,12 +34,15 @@ namespace RayTracer.Scratchpad
             };
             
             var outputDirectory = Path.Combine(new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.Parent.Parent.ToString(), "Examples");
+
+            var examplesToRun = examples.Select((x, index) => new {Example = x, index})
+                .Skip(examples.Length - 1);
             
-            for (var x = 0; x < examples.Length; x++)
+            foreach (var item in examplesToRun)
             {
-                var filename = Path.Combine(outputDirectory, $"{x:00}_{examples[x].GetType().Name}.png");
+                var filename = Path.Combine(outputDirectory, $"{item.index:00}_{item.Example.GetType().Name}.png");
                 var stopwatch = Stopwatch.StartNew();
-                var canvas = examples[x].Run();
+                var canvas = item.Example.Run();
                 stopwatch.Stop();
                 
                 using var file = new SKFileWStream(filename);

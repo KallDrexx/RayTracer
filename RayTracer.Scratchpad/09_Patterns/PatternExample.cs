@@ -53,7 +53,6 @@ namespace RayTracer.Scratchpad._09_Patterns
                 Material = new Material
                 {
                     Pattern = new RingPattern(new Color(1, 0, 0), new Color(0, 1, 0)),
-                    Color = new Color(0.1, 1, 0.5),
                     Diffuse = 0.7,
                     Specular = 0.3,
                 }
