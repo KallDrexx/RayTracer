@@ -55,7 +55,11 @@ namespace RayTracer.Scratchpad._09_Patterns
             {
                 Material = new Material
                 {
-                    Pattern = new RingPattern(new Color(1, 0, 0), new Color(0, 1, 0)),
+                    Pattern = new RingPattern(new Color(1, 0, 0), new Color(0, 1, 0))
+                    {
+                        TransformMatrix = Matrix4X4.CreateRotationX(Math.PI / -3) *
+                                          Matrix4X4.CreateScale(0.25, 0.25, 0.25)
+                    },
                     Diffuse = 0.7,
                     Specular = 0.3,
                 }
