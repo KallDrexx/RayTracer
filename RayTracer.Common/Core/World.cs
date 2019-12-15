@@ -28,7 +28,7 @@ namespace RayTracer.Common.Core
                 var isInShadow = IsInShadow(preComputation.OverPoint, pointLight);
                 
                 color += preComputation.Object.Material.CalculateLighting(pointLight,
-                    preComputation.Point,
+                    preComputation.OverPoint,
                     preComputation.EyeVector,
                     preComputation.NormalVector,
                     isInShadow,
